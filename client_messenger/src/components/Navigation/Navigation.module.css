@@ -1,0 +1,19 @@
+.nav {
+    display: flex;
+    justify-content: center;
+    margin: auto;
+    border: 1px solid black;
+    width: 50%;
+}
+.nav p{
+    margin: 10px 50px 10px 50px;
+}
+
+.nav p:hover{
+    color: red;
+    cursor: pointer;
+}
+
+.active {
+    color: red;
+}
