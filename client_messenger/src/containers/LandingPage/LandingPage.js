@@ -1,7 +1,7 @@
 import React,{useState} from 'react';
 import classes from './LandingPage.module.css';
 import Navigation from '../../components/Navigation/Navigation';
-import {Form,Button} from 'react-bootstrap';
+import {Form,Button,Image} from 'react-bootstrap';
 
 const LandingPage = props=>{
     const [state,setState]= useState({
@@ -10,28 +10,18 @@ const LandingPage = props=>{
     });
     return (
         <>
-        <Navigation/>
+        <Navigation home/>
+        <Image width='300' height='300' src={require('../../images/messenger.png')} className={classes.image}/>
       <div className={classes.LandingPage}>
-        <p>
-          Messenger
-        </p>
-        <Form>
+        <Form style={{marginTop: '25px'}}>
           <Form.Group controlId="formBasicEmail">
-            <Form.Label>Email: </Form.Label>
-            <Form.Control type="email" placeholder="Enter email" style={{
-              width: '50%',
-              margin: 'auto'
-            }}/>
+            <Form.Control type="email" placeholder="Enter email" className={classes.input} style={{width: '50%'}}/>
           </Form.Group>
           <Form.Group controlId="formBasicLogin">
-            <Form.Label>Login: </Form.Label>
-            <Form.Control type="text" placeholder="Enter login" style={{
-              width: '50%',
-              margin: 'auto'
-            }}/>
+            <Form.Control type="text" placeholder="Enter login" className={classes.input} style={{width: '50%'}}/>
           </Form.Group>
-          <Button>
-            login
+          <Button className={classes.button}>
+            Login
          </Button>
         </Form>
       </div>

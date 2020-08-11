@@ -5,11 +5,12 @@ const navigationBar = props=>{
     return (
         <div className={classes.nav}>
             <p>
-                Nothing really
+                Soon
             </p>
+            {props.home ? <p className={classes.active}>Home</p> : 
             <p>
                 Home
-            </p>
+            </p> }
             <p>
                 About
             </p>
