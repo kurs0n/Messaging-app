@@ -23,6 +23,8 @@ const LandingPage = props=>{
         password: state.password
       })
       .then(response=>{
+        localStorage.setItem('token',response.data.token);
+        window.location.reload(false);
         console.log(response); 
       })
       .catch(err=>{
@@ -32,7 +34,7 @@ const LandingPage = props=>{
 
     return (
         <>
-        <Navigation home/>
+        <Navigation home history={props.history}/>
         <Image width='300' height='300' src={require('../../images/messenger.png')} className={classes.image}/>
       <div className={classes.LandingPage}>
         <Form style={{marginTop: '25px'}}>
