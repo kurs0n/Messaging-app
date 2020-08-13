@@ -1,6 +1,7 @@
 const app = require('express')();
 const bodyParser = require('body-parser');
 const authRoute = require('./routes/auth');
+const userRoute = require('./routes/user');
 const mongoose = require('mongoose');
 require('dotenv').config();
 
@@ -17,6 +18,8 @@ app.use((req, res, next) => {//cors policy
   });
 
 app.use('/auth',authRoute);
+
+app.use('/user',userRoute);
 
 app.use((error,req,res,next)=>{//error handling
     console.log(error);

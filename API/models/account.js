@@ -21,7 +21,7 @@ const accountSchema = new mongoose.Schema({
         required: true
     },
     friends: [
-        {friendId: {
+        {friend: {
             type:mongoose.SchemaTypes.ObjectId,ref: 'Account'
         }}
     ]

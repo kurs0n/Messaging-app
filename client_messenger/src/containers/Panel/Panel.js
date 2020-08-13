@@ -1,13 +1,21 @@
-import React from 'react';
+import React,{useState} from 'react';
 import Navigation from '../../components/Navigation/Navigation';
+import Users from '../Users/Users';
+import Sidebar from '../../components/Sidebar/Sidebar';
 
-const panel = props=>{
+const Panel = props=>{
+    const [state,setState]= useState({
+        showSidebar: false
+    });
+
     return (
         <>
             <Navigation home history={props.history}/>
-            <h1>Panel</h1>
+            <Sidebar title="Friends">
+                <Users/>
+            </Sidebar>
         </>
     )
 };
 
-export default panel;
+export default Panel;
