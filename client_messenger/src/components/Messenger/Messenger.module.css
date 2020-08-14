@@ -4,6 +4,7 @@
     width: 50%;
     height: 60%;
     border: 1px solid black;
+    overflow-y: scroll;
     position: absolute;
 }
 

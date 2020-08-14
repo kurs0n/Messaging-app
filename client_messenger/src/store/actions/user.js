@@ -13,3 +13,10 @@ export const setMessages = (messages) =>{
         messages: messages
     }
 }
+
+export const addMessage = (data) => {
+    return {
+        type: actionTypes.ADD_MESSAGE,
+        message: data
+    }
+}

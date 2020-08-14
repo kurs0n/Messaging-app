@@ -53,11 +53,18 @@ module.exports.sendMessage = async (req,res,next)=>{
         })
     }
     else {
+
         conversation.messages.push({
             person: userSendingMessage,
             message: message
         });
         conversation.save();
+        const person = await Account.findOne({_id: userSendingMessage}).select('name');
+        const socket = require('../utils/socket').getIo();
+        socket.emit('message',{
+            person: person,
+            message: message
+        });
         res.status(200).json({
             message: 'Send message'
         });
@@ -80,10 +87,10 @@ module.exports.getFriends = async (req,res,next)=>{
 
 module.exports.getConversation = async(req,res,next)=>{
     const person2Id = req.get('person2');
-    let conversation = await Conversation.findOne({person1: req.userId, person2: person2Id });
+    let conversation = await Conversation.findOne({person1: req.userId, person2: person2Id }).populate({path: 'messages.person', select: 'name'});
     if(!conversation)
     {
-        conversation = await Conversation.findOne({person1: person2Id, person2: req.userId });
+        conversation = await Conversation.findOne({person1: person2Id, person2: req.userId }).populate({path: 'messages.person', select: 'name'});
     }
     if (!conversation) {
         const error = new Error();

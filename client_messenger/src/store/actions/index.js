@@ -1,4 +1,5 @@
 export {
  setUser,
- setMessages
+ setMessages,
+ addMessage
 } from './user';

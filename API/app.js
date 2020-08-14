@@ -33,7 +33,11 @@ app.use((error,req,res,next)=>{//error handling
 mongoose.connect(process.env.DB_URL,{useNewUrlParser: true,useUnifiedTopology:true})
 .then(result=>{
     console.log('connected with database');
-    app.listen(3000);
+    const server=app.listen(3000);
+    const socket = require('./utils/socket').init(server);
+    socket.on('connect',socket=>{
+      console.log('connected');
+    });
 })
 .catch(err=>{
     console.log(err);

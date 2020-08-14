@@ -19,6 +19,13 @@ const setMessages = (state,action)=>{
     }
 }
 
+const addMessage = (state,action)=>{
+    return {
+        ...state,
+        messages: [...state.messages,action.message]
+    }
+}
+
 const reducer = (state=INITIAL_STATE, action)=>{
     switch(action.type){
         case actionTypes.SET_USER_TO_SEND_MESSAGE: {
@@ -26,6 +33,9 @@ const reducer = (state=INITIAL_STATE, action)=>{
         }
         case actionTypes.SET_MESSAGES: {
             return setMessages(state,action);
+        }
+        case actionTypes.ADD_MESSAGE: {
+            return addMessage(state,action)
         }
         default: {
             return state;
