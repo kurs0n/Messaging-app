@@ -2,20 +2,26 @@ import React,{useState} from 'react';
 import Navigation from '../../components/Navigation/Navigation';
 import Users from '../Users/Users';
 import Sidebar from '../../components/Sidebar/Sidebar';
+import Messenger from '../../components/Messenger/Messenger';
+import {connect} from 'react-redux';
+
 
 const Panel = props=>{
-    const [state,setState]= useState({
-        showSidebar: false
-    });
-
     return (
         <>
             <Navigation home history={props.history}/>
             <Sidebar title="Friends">
                 <Users/>
-            </Sidebar>
+            </Sidebar>  
+            <Messenger messages={props.messages}/>
         </>
     )
 };
 
-export default Panel;
+const mapStateToProps = state =>{
+    return {
+        messages: state.messages
+    }
+};
+
+export default connect(mapStateToProps)(Panel);

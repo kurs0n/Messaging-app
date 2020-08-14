@@ -1,0 +1,16 @@
+.messenger { 
+    top: 10%;
+    left: 25%;
+    width: 50%;
+    height: 60%;
+    border: 1px solid black;
+    position: absolute;
+}
+
+.form {
+    position: absolute;
+    top: 70%;
+    left: 25%;
+    width: 50%;
+    margin-top: 10px;
+}

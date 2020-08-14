@@ -3,13 +3,22 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-import 'bootstrap/dist/css/bootstrap.min.css'; //Bootstrao styling
+import 'bootstrap/dist/css/bootstrap.min.css'; //Bootstrap styling
+import thunk from 'redux-thunk';
+import {createStore,compose, applyMiddleware} from 'redux';
+import {Provider} from 'react-redux';
+import userReducer from './store/reducers/user';
 
+const composeEnchancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
+const store = createStore(userReducer,composeEnchancers(applyMiddleware(thunk)));
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+  <Provider store={store}>
+    <React.StrictMode>
+      <App />
+    </React.StrictMode>
+  </Provider>,
   document.getElementById('root')
 );
 

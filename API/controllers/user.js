@@ -77,3 +77,21 @@ module.exports.getFriends = async (req,res,next)=>{
         friends: friends
     });
 };
+
+module.exports.getConversation = async(req,res,next)=>{
+    const person2Id = req.get('person2');
+    let conversation = await Conversation.findOne({person1: req.userId, person2: person2Id });
+    if(!conversation)
+    {
+        conversation = await Conversation.findOne({person1: person2Id, person2: req.userId });
+    }
+    if (!conversation) {
+        const error = new Error();
+        error.message="We don't have this conversation";
+        error.statusCode = 500;
+        return next(error);
+    }
+    res.status(200).json({
+        messages: conversation.messages 
+    });
+};
