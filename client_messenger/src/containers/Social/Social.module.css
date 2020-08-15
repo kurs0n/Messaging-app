@@ -1,0 +1,23 @@
+.socialinput {
+    width: 50%;
+    margin: auto;
+    margin-top: 50px;
+}
+
+.ul { 
+    list-style-type: none;
+    width: 600px;
+    margin: auto;
+}
+
+.li { 
+    border: 1px solid gainsboro;
+    margin-top: 30px;
+    border-radius: 10px;
+    text-align: center;
+    margin-right: 30px;
+}
+
+.Button {
+    margin-bottom: 10px;
+}

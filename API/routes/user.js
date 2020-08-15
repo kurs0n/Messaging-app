@@ -10,4 +10,6 @@ router.get('/conversation',isAuth,userController.getConversation);
 
 router.get('/friends',isAuth,userController.getFriends);
 
+router.get('/users',isAuth,userController.getUsers);
+
 module.exports = router;

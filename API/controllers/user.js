@@ -58,10 +58,11 @@ module.exports.sendMessage = async (req,res,next)=>{
             person: userSendingMessage,
             message: message
         });
-        conversation.save();
+        const conversationindb = await conversation.save();
         const person = await Account.findOne({_id: userSendingMessage}).select('name');
         const socket = require('../utils/socket').getIo();
         socket.emit('message',{
+            _id: conversationindb.messages[conversationindb.messages.length-1]._id,
             person: person,
             message: message
         });
@@ -101,4 +102,35 @@ module.exports.getConversation = async(req,res,next)=>{
     res.status(200).json({
         messages: conversation.messages 
     });
+};
+
+module.exports.getUsers = async(req,res,next)=>{
+    const input = req.get('input');
+    const accounts = await Account.find();
+    const filtered_accounts = accounts.filter(account=>{
+        var temp =0;
+        for(var i=0; i<input.length; i++)
+        {
+            if (input[i]===account.name[i])
+            {
+                temp++;
+            }
+        }
+        if (temp===input.length)
+        {
+            return account;
+        }
+    });
+
+    if (filtered_accounts[0]){
+        res.status(200).json({
+            accounts: filtered_accounts
+        });
+    }
+    else {
+        res.status(200).json({
+            accounts: filtered_accounts
+        });
+    }
+
 };

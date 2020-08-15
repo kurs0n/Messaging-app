@@ -1,0 +1,38 @@
+.messenger { 
+    top: 10%;
+    left: 25%;
+    width: 50%;
+    height: 60%;
+    border: 1px solid black;
+    overflow: auto;
+    position: absolute;
+}
+
+.formunactive {
+    pointer-events: none;
+    position: absolute;
+    top: 70%;
+    left: 25%;
+    width: 50%;
+    margin-top: 10px;
+}
+
+.form {
+    position: absolute;
+    top: 70%;
+    left: 25%;
+    width: 50%;
+    margin-top: 10px;
+}
+
+.image { 
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    top: 72%;
+    left: 76%;
+}
+
+.image:hover {
+    cursor: pointer;
+}

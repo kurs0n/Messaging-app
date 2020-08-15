@@ -4,6 +4,7 @@ import LandingPage from './containers/LandingPage/LandingPage';
 import About from './components/About/About';
 import NotFind from './components/NotFind/NotFind';
 import Panel from './containers/Panel/Panel';
+import Social from './containers/Social/Social';
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <Route path="/" exact component={LandingPage}/>
         }
         <Route path="/about" component={About}/>
+        <Route path="/social" component={Social}/>
         <Route component={NotFind}/>
       </Switch>
     </BrowserRouter>

@@ -2,13 +2,19 @@ import React,{useState} from 'react';
 import Navigation from '../../components/Navigation/Navigation';
 import Users from '../Users/Users';
 import Sidebar from '../../components/Sidebar/Sidebar';
-import Messenger from '../../components/Messenger/Messenger';
+import Messenger from '../Messenger/Messenger';
 import {connect} from 'react-redux';
+import {Button} from 'react-bootstrap';
+import classes from './Panel.module.css';
 
 
 const Panel = props=>{
     return (
         <>
+            <Button className={classes.Button} onClick={()=>{
+                localStorage.removeItem('token');
+                window.location.reload(false);
+            }}>logout</Button>
             <Navigation home history={props.history}/>
             <Sidebar title="Friends">
                 <Users/>

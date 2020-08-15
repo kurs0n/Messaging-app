@@ -1,12 +1,30 @@
 import React from 'react';
 import classes from './User.module.css';
+import {connect} from 'react-redux';
 
 const user = props=>{
-    return(
+    let user = (
         <p className={classes.user} onClick={props.click}>
             {props.children}
         </p>
+    );
+    if(props.id.toString()===props.personId)
+    {
+        user = (
+            <p className={classes.active} onClick={props.click}>
+            {props.children}
+        </p>
+        )
+    }   
+    return(
+        user
     )
 }; 
 
-export default user;
+const mapStateToProps = state=>{
+    return {
+        personId: state.personId
+    }
+};  
+
+export default connect(mapStateToProps)(user);

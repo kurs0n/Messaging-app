@@ -8,6 +8,18 @@
     text-align: center;
 }
 
+.active {
+    background-color: #e6e6e6;
+    color: black;
+    border: 1px solid grey;
+    border-radius: 20px;
+    margin: auto;
+    width: 85%;
+    margin-bottom: 30px;
+    height: 50px;
+    text-align: center;
+}
+
 .user:hover {
     background-color: #e6e6e6;
     color: black;

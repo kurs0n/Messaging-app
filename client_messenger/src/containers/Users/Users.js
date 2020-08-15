@@ -34,7 +34,7 @@ const Users = props =>{
         <>
         {users.map(friend=> {
             return (
-                <User key={friend.friend._id} click={()=>{setUser(friend.friend._id.toString())}}> {
+                <User key={friend.friend._id} click={()=>{setUser(friend.friend._id.toString())}} id={friend.friend._id} > {
                     // to fire onClick event on <p> component lol
                 }
                     {friend.friend.name} {friend.friend.surname}
