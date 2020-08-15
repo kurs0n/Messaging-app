@@ -2,7 +2,8 @@ import * as actionTypes from '../actions/actionTypes';
 
 const INITIAL_STATE = {
     personId: '',
-    messages: []
+    messages: [],
+    meId: ''
 };
 
 const setPerson = (state,action) =>{
@@ -26,6 +27,13 @@ const addMessage = (state,action)=>{
     }
 }
 
+const addMe = (state,action)=>{ 
+    return {
+        ...state,
+        meId: action.id
+    }
+}
+
 const reducer = (state=INITIAL_STATE, action)=>{
     switch(action.type){
         case actionTypes.SET_USER_TO_SEND_MESSAGE: {
@@ -35,7 +43,10 @@ const reducer = (state=INITIAL_STATE, action)=>{
             return setMessages(state,action);
         }
         case actionTypes.ADD_MESSAGE: {
-            return addMessage(state,action)
+            return addMessage(state,action);
+        }
+        case actionTypes.ADD_ME: {
+            return addMe(state,action);
         }
         default: {
             return state;

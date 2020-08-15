@@ -1,5 +1,6 @@
 export {
  setUser,
  setMessages,
- addMessage
+ addMessage,
+ addMe
 } from './user';

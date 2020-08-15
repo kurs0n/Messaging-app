@@ -104,6 +104,12 @@ module.exports.getConversation = async(req,res,next)=>{
     });
 };
 
+module.exports.getMe = async(req,res,next)=>{
+    res.status(200).json({
+        id: req.userId
+    });
+}
+
 module.exports.getUsers = async(req,res,next)=>{
     const input = req.get('input');
     const accounts = await Account.find();

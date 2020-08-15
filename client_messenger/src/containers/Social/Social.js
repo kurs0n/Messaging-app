@@ -3,11 +3,15 @@ import Navigation from '../../components/Navigation/Navigation';
 import {Form,Button,Spinner} from 'react-bootstrap';
 import classes from './Social.module.css';
 import axios from 'axios';
+import * as actions from '../../store/actions/index';
+import {connect} from 'react-redux';
 
 const Social = props =>{
     const [state,setState] = useState({
         input: '',
         accounts: [],
+        friends: [],
+        IdOfMe: '',
         loading: false
     });
     const handleChange = event=>{
@@ -17,21 +21,88 @@ const Social = props =>{
         });
 
     }
+
+    const filterUsers = ()=>{
+        let temp = [];
+        state.accounts.map(account=>{
+            state.friends.map(friend=>{
+                if (account._id.toString() === friend.friend._id.toString())
+                {
+                 temp.push(account._id); // if we have friend 
+                }
+            })
+        });
+        const filtered = state.accounts.filter(people=> people._id.toString() !== props.id.toString()); // filter to not get yourself 
+        return filtered.map(people=>{
+            let temp2 = false;
+            return (
+                <li className={classes.li} key={people._id}>
+                    <p>{people.name}</p>
+                    <p>{people.surname}</p>
+                    {
+                        temp.map(value=>{
+                            if (value.toString()===people._id.toString())
+                            {
+                                temp2 = true;
+                            }
+                        })
+                    }
+                    {
+                        temp2 ? <p style={{fontWeight: 'bold'}}>This is your friend 👨🏽‍💻</p> : <Button className={classes.Button}>Add Friend</Button>
+                    }
+
+                </li>
+            )
+        });
+        /*return state.accounts.map(people=>{ previous lol
+            let temp2 = false;
+            return (
+                <li className={classes.li} key={people._id}>
+                    <p>{people.name}</p>
+                    <p>{people.surname}</p>
+                    {
+                        temp.map(value=>{
+                            if (value.toString()===people._id.toString())
+                            {
+                                temp2 = true;
+                            }
+                        })
+                    }
+                    {
+                        temp2 ? <p>This is your friend</p> : <Button className={classes.Button}>Add Friend</Button>
+                    }
+
+                </li>
+            )
+        });*/
+    };
+
     useEffect(()=>{
         setState({
             ...state,
             loading: true
         });
         const timer = setTimeout(()=>{
+            let accounts;
             axios.get("http://localhost:3000/user/users",{headers: {
                 "Authorization": "Bearer "+localStorage.getItem('token'),
                 "input": state.input
             }}).then(response=>{
-                setState({
-                    ...state,
-                    accounts: response.data.accounts,
-                    loading: false
-                });
+                accounts = response.data.accounts;
+                axios.get('http://localhost:3000/user/friends',{
+                    headers:{
+                        "Authorization": 'Bearer '+ localStorage.getItem('token')
+                    }
+                }).then(response=>{
+                    setState({
+                        ...state,
+                        friends: response.data.friends,
+                        accounts: accounts,
+                        loading: false
+                    });
+                }).catch(err=>{
+                    console.log(err);
+                })
             })
             .catch(err=>{
                 console.log(err);
@@ -39,6 +110,20 @@ const Social = props =>{
         },400);
         return ()=> clearTimeout(timer);
     },[state.input]);
+
+    useEffect(()=>{
+        axios.get('http://localhost:3000/user/me',{headers:{
+            "Authorization": 'Bearer '+ localStorage.getItem('token')
+        }}).then(response=>{
+            props.setMe(response.data.id);
+        })
+        .catch(err=>{
+            console.log(err);
+        })
+    },[]);
+
+    const users = filterUsers();
+
     if (localStorage.token)
     {
     return (
@@ -50,19 +135,13 @@ const Social = props =>{
             </Form.Group>
         </Form>
         <ul className={classes.ul}>
-            {state.accounts.map(people=>{
-                return (
-                    <li className={classes.li}>
-                        <p>{people.name}</p>
-                        <p>{people.surname}</p>
-                        <Button className={classes.Button}>Add Friend</Button>
-                    </li>
-                )
-            })}
+            {
+                users
+            }
         </ul>
         <div style={{textAlign: 'center'}}>
         {
-                state.loading ? <Spinner animation="border" style={{width: '3rem', height: '3rem'}}/> : null
+                state.loading ? <Spinner animation="border" style={{width: '3rem', height: '3rem',color: 'black'}}/> : null
         }
         </div>
     </>
@@ -78,4 +157,15 @@ const Social = props =>{
         }
 };
 
-export default Social;
+const mapStateToProps = state=>{
+    return {
+        id: state.meId
+    }
+}
+const mapDispatchToProps = dispatch=>{
+    return {
+        setMe: (id)=>dispatch(actions.addMe(id))
+    }
+};
+
+export default connect(mapStateToProps,mapDispatchToProps)(Social);

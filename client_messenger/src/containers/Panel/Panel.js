@@ -1,4 +1,4 @@
-import React,{useState} from 'react';
+import React,{useEffect} from 'react';
 import Navigation from '../../components/Navigation/Navigation';
 import Users from '../Users/Users';
 import Sidebar from '../../components/Sidebar/Sidebar';
@@ -6,6 +6,8 @@ import Messenger from '../Messenger/Messenger';
 import {connect} from 'react-redux';
 import {Button} from 'react-bootstrap';
 import classes from './Panel.module.css';
+import axios from 'axios';
+import * as actions from '../../store/actions/index';
 
 
 const Panel = props=>{
@@ -29,5 +31,6 @@ const mapStateToProps = state =>{
         messages: state.messages
     }
 };
+
 
 export default connect(mapStateToProps)(Panel);

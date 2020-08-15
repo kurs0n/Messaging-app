@@ -12,4 +12,6 @@ router.get('/friends',isAuth,userController.getFriends);
 
 router.get('/users',isAuth,userController.getUsers);
 
+router.get('/me',isAuth,userController.getMe);
+
 module.exports = router;

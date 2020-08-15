@@ -20,3 +20,10 @@ export const addMessage = (data) => {
         message: data
     }
 }
+
+export const addMe = (id) =>{
+    return {
+        type: actionTypes.ADD_ME,
+        id: id
+    }
+}
