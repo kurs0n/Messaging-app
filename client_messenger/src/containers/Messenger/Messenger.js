@@ -50,9 +50,14 @@ const Messenger = props =>{
     useEffect(()=>{
         socket.emit('connect');
         socket.on('message',(data)=>{
-            props.addMessage(data);
+            console.log(props.personId);
+            console.log(data.person._id);
+            if(props.personId.toString()===data.person._id.toString())
+            {
+                props.addMessage(data);
+            }
         });
-    },[]);
+    },[props.personId]);
 
     useEffect(scrollToBottom,[props.messages]); // scroll if our messages are changed
 

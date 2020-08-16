@@ -21,6 +21,75 @@ const Social = props =>{
         });
 
     }
+    const addFriend = (id) =>{
+        axios.post('http://localhost:3000/user/add_friend',{
+            id: id.toString()
+        },{headers:{
+            "Authorization": 'Bearer '+localStorage.getItem('token')
+        }})
+        .then(response=>{
+            let accounts;
+            axios.get("http://localhost:3000/user/users",{headers: {
+                "Authorization": "Bearer "+localStorage.getItem('token'),
+                "input": state.input
+            }}).then(response=>{
+                accounts = response.data.accounts;
+                axios.get('http://localhost:3000/user/friends',{
+                    headers:{
+                        "Authorization": 'Bearer '+ localStorage.getItem('token')
+                    }
+                }).then(response=>{
+                    setState({
+                        ...state,
+                        friends: response.data.friends,
+                        accounts: accounts,
+                        loading: false
+                    });
+                }).catch(err=>{
+                    console.log(err);
+                })
+            })
+            .catch(err=>{
+                console.log(err);
+            })
+        })
+    }
+
+    const acceptFriend = (id)=>{ // yea mess
+        axios.patch('http://localhost:3000/user/accept_friend',{
+            id: id.toString()
+        },{headers:{
+            'Authorization': 'Bearer '+localStorage.getItem('token')
+        }}).then(response=>{
+            let accounts;
+            axios.get("http://localhost:3000/user/users",{headers: {
+                "Authorization": "Bearer "+localStorage.getItem('token'),
+                "input": state.input
+            }}).then(response=>{
+                accounts = response.data.accounts;
+                axios.get('http://localhost:3000/user/friends',{
+                    headers:{
+                        "Authorization": 'Bearer '+ localStorage.getItem('token')
+                    }
+                }).then(response=>{
+                    setState({
+                        ...state,
+                        friends: response.data.friends,
+                        accounts: accounts,
+                        loading: false
+                    });
+                }).catch(err=>{
+                    console.log(err);
+                })
+            })
+            .catch(err=>{
+                console.log(err);
+            })
+        })
+        .catch(err=>{
+            console.log(err);
+        })
+    }
 
     const filterUsers = ()=>{
         let temp = [];
@@ -35,20 +104,36 @@ const Social = props =>{
         const filtered = state.accounts.filter(people=> people._id.toString() !== props.id.toString()); // filter to not get yourself 
         return filtered.map(people=>{
             let temp2 = false;
+            let temp3 = null; 
             return (
                 <li className={classes.li} key={people._id}>
                     <p>{people.name}</p>
                     <p>{people.surname}</p>
                     {
-                        temp.map(value=>{
-                            if (value.toString()===people._id.toString())
+                        state.friends.map(friend=>{
+                            if(people._id.toString()===friend.friend._id.toString())
                             {
-                                temp2 = true;
+                                if(friend.send===true&&friend.accepted===false)
+                                {
+                                    temp3 = (<p style={{fontWeight: 'bold'}}>Waiting for accept 👍🏻 </p>);
+                                    temp2 = true;
+                                }
+                                else if(friend.send===false&&friend.accepted===false)
+                                {
+                                    temp3 = (<Button className={classes.Button} onClick={()=>acceptFriend(people._id)}>Accept</Button>);
+                                    temp2 = true;
+                                }
+                                else if(friend.accepted===true)
+                                {
+                                    temp3 = (<p style={{fontWeight: 'bold'}}>This is your friend 👨🏽‍💻</p>);
+                                    temp2 = true;
+                                }
                             }
                         })
                     }
                     {
-                        temp2 ? <p style={{fontWeight: 'bold'}}>This is your friend 👨🏽‍💻</p> : <Button className={classes.Button}>Add Friend</Button>
+                        temp2 ? temp3 : <Button className={classes.Button} onClick={()=>
+                            addFriend(people._id)}>Add Friend</Button>
                     }
 
                 </li>

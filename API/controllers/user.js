@@ -73,7 +73,8 @@ module.exports.sendMessage = async (req,res,next)=>{
         socket.emit('message',{
             _id: conversationindb.messages[conversationindb.messages.length-1]._id,
             person: person,
-            message: message
+            message: message,
+            personGetMessage: userWhoGetMessage
         });
         res.status(200).json({
             message: 'Send message'
@@ -103,10 +104,13 @@ module.exports.getConversation = async(req,res,next)=>{
         conversation = await Conversation.findOne({person1: person2Id, person2: req.userId }).populate({path: 'messages.person', select: 'name'});
     }
     if (!conversation) {
-        const error = new Error();
+        /*const error = new Error();
         error.message="We don't have this conversation";
         error.statusCode = 500;
-        return next(error);
+        return next(error);*/
+        res.status(200).json({
+            messages: []
+        });
     }
     res.status(200).json({
         messages: conversation.messages 

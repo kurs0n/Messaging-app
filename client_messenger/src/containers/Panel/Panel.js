@@ -6,9 +6,21 @@ import Messenger from '../Messenger/Messenger';
 import {connect} from 'react-redux';
 import {Button} from 'react-bootstrap';
 import classes from './Panel.module.css';
+import axios from 'axios';
+import * as actions from '../../store/actions/index';
 
 
 const Panel = props=>{
+    useEffect(()=>{
+        axios.get('http://localhost:3000/user/me',{
+            headers: {
+                'Authorization': 'Bearer '+localStorage.getItem('token')
+            }
+        })
+        .then(response=>{
+            props.setMe(response.data.id);
+        })
+    },[]);
     return (
         <>
             <Button className={classes.Button} onClick={()=>{
@@ -19,16 +31,24 @@ const Panel = props=>{
             <Sidebar title="Friends">
                 <Users/>
             </Sidebar>  
-            <Messenger messages={props.messages}/>
+            {props.meId ? <Messenger messages={props.messages} id={props.meId}/> : null}
+
         </>
     )
 };
 
 const mapStateToProps = state =>{
     return {
-        messages: state.messages
+        messages: state.messages,
+        meId: state.meId
+    }
+};
+
+const mapDispatchToProps = dispatch =>{
+    return {
+        setMe: (id)=>dispatch(actions.addMe(id))
     }
 };
 
 
-export default connect(mapStateToProps)(Panel);
+export default connect(mapStateToProps,mapDispatchToProps)(Panel);

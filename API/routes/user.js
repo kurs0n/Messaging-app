@@ -6,8 +6,6 @@ router.post('/add_friend',isAuth,userController.addFriend);
 
 router.post('/message',isAuth,userController.sendMessage);
 
-router.patch('/accept',isAuth, userController.acceptFriend);
-
 router.get('/conversation',isAuth,userController.getConversation);
 
 router.get('/friends',isAuth,userController.getFriends);
@@ -15,5 +13,7 @@ router.get('/friends',isAuth,userController.getFriends);
 router.get('/users',isAuth,userController.getUsers);
 
 router.get('/me',isAuth,userController.getMe);
+
+router.patch('/accept_friend',isAuth, userController.acceptFriend);
 
 module.exports = router;

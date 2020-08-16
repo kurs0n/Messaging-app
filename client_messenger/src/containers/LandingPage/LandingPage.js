@@ -2,6 +2,7 @@ import React,{useState} from 'react';
 import classes from './LandingPage.module.css';
 import Navigation from '../../components/Navigation/Navigation';
 import {Form,Button,Image} from 'react-bootstrap';
+import {Link} from 'react-router-dom';
 import axios from 'axios';
 
 const LandingPage = props=>{
@@ -48,6 +49,9 @@ const LandingPage = props=>{
             Login
          </Button>
         </Form>
+      </div>
+      <div style={{textAlign: 'center'}}>
+      <Link to="/register">You don't have account? CLICK!</Link>
       </div>
       </>
     )
