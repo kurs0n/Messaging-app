@@ -6,6 +6,8 @@ router.post('/add_friend',isAuth,userController.addFriend);
 
 router.post('/message',isAuth,userController.sendMessage);
 
+router.patch('/accept',isAuth, userController.acceptFriend);
+
 router.get('/conversation',isAuth,userController.getConversation);
 
 router.get('/friends',isAuth,userController.getFriends);

@@ -23,6 +23,10 @@ const accountSchema = new mongoose.Schema({
     friends: [
         {friend: {
             type:mongoose.SchemaTypes.ObjectId,ref: 'Account'
+        },accepted: {
+            type: Boolean
+        },send: {
+            type: Boolean
         }}
     ]
 });

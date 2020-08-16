@@ -6,8 +6,6 @@ import Messenger from '../Messenger/Messenger';
 import {connect} from 'react-redux';
 import {Button} from 'react-bootstrap';
 import classes from './Panel.module.css';
-import axios from 'axios';
-import * as actions from '../../store/actions/index';
 
 
 const Panel = props=>{
