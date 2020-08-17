@@ -1,7 +1,11 @@
 .sidebar { 
     width: 20%;
-    height: 100%;
+    height: 500px;
     border: 1px solid black;
     margin-left: 20px;
-    margin-top: 25px
+    margin-top: 25px;
+    overflow: auto;
+}
+.h1{
+    text-align: center;
 }

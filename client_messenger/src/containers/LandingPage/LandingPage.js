@@ -45,7 +45,7 @@ const LandingPage = props=>{
           <Form.Group controlId="formBasicLogin">
             <Form.Control type="text" placeholder="Enter Password" className={classes.input} style={{width: '50%'}} name="password" onChange={inputHandler} value={state.password}/>
           </Form.Group>
-          <Button className={classes.button} onClick={login}>
+          <Button variant='dark' className={classes.button} onClick={login}>
             Login
          </Button>
         </Form>

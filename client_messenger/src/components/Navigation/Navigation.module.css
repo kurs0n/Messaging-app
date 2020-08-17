@@ -6,15 +6,15 @@
     width: 50%;
 }
 .nav p{
-    margin: 10px 50px 10px 50px;
+    margin: 10px 10% 10px 10%;
     font-weight: bold;
 }
 
 .nav p:hover{
-    color: red;
+    color: #008c8c;
     cursor: pointer;
 }
 
 .active {
-    color: red;
+    color: #008c8c;
 }

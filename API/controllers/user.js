@@ -108,7 +108,7 @@ module.exports.getConversation = async(req,res,next)=>{
         error.message="We don't have this conversation";
         error.statusCode = 500;
         return next(error);*/
-        res.status(200).json({
+        return res.status(200).json({
             messages: []
         });
     }

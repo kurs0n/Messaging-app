@@ -21,7 +21,7 @@ const Messenger = props =>{
             return null
         }
         axios.post('http://localhost:3000/user/message',{
-         id: props.id,
+         id: props.personId,
          message: input 
         },{
             headers: {
@@ -31,7 +31,7 @@ const Messenger = props =>{
         .then(response =>{
             axios.get('http://localhost:3000/user/conversation',{headers:{
                 'Authorization': 'Bearer ' + localStorage.getItem('token'),
-                'person2': props.id 
+                'person2': props.personId 
             }}).then(response=>{
                 props.setMessages(response.data.messages);
                 setInput('');
@@ -50,18 +50,11 @@ const Messenger = props =>{
     useEffect(()=>{
         socket.emit('connect');
         socket.on('message',(data)=>{ //    IT WORKS !!!
-            axios.get('http://localhost:3000/user/conversation',{headers:{
-                'Authorization': 'Bearer ' + localStorage.getItem('token'),
-                'person2': data.person._id 
-            }}).then(response=>{
-                if(props.personId === data.person._id)
+                if(props.personId === data.person._id && data.personGetMessage.toString()===props.meId.toString())
                 {
-                props.setMessages(response.data.messages);
+                props.addMessage(data);
                 setInput('');
                 }
-            }).catch(err=>{
-                console.log(err);
-            })
             /*if(props.id===data.person._id && data.personGetMessage.toString()===props.meId.toString())
             {
             props.addMessage(data);
@@ -72,19 +65,27 @@ const Messenger = props =>{
 
     useEffect(scrollToBottom,[props.messages]); // scroll if our messages are changed
 
+    let messages = null;
+    if (props.messages){
+        messages= props.messages.map(message=>{
+            return (
+                <Message key={message._id}>
+                    <p style={{fontWeight: 'bold', display: 'inline'}}>{message.person.name}:</p> {message.message}
+                </Message>
+            )
+        })
+    }
+    else
+    {
+        messages = (<p>Type something !🤚🏻</p>)
+    }
     return(
         <div style={{
             borderWidth:'1px',
             borderColor: 'black'
         }}>
             <div className={classes.messenger}>
-                {props.messages.map(message=>{
-                    return (
-                        <Message key={message._id}>
-                            <p style={{fontWeight: 'bold', display: 'inline'}}>{message.person.name}:</p> {message.message}
-                        </Message>
-                    )
-                })}
+                {messages}
                 <div ref={messagesEndRef}/> {
                     //smooth
                 }
@@ -102,7 +103,8 @@ const Messenger = props =>{
 const mapStateToProps = state =>{
     return {
         personId: state.personId,
-        messages: state.messages
+        messages: state.messages,
+        meId: state.meId
     }
 };
 

@@ -120,7 +120,7 @@ const Social = props =>{
                                 }
                                 else if(friend.send===false&&friend.accepted===false)
                                 {
-                                    temp3 = (<Button className={classes.Button} onClick={()=>acceptFriend(people._id)}>Accept</Button>);
+                                    temp3 = (<Button variant="dark" className={classes.Button} onClick={()=>acceptFriend(people._id)}>Accept</Button>);
                                     temp2 = true;
                                 }
                                 else if(friend.accepted===true)
@@ -132,7 +132,7 @@ const Social = props =>{
                         })
                     }
                     {
-                        temp2 ? temp3 : <Button className={classes.Button} onClick={()=>
+                        temp2 ? temp3 : <Button variant="dark" className={classes.Button} onClick={()=>
                             addFriend(people._id)}>Add Friend</Button>
                     }
 

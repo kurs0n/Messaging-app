@@ -23,15 +23,15 @@ const Panel = props=>{
     },[])
     return (
         <>
-            <Button className={classes.Button} onClick={()=>{
+            <Button variant="dark" className={classes.Button} onClick={()=>{
                 localStorage.removeItem('token');
                 window.location.reload(false);
             }}>logout</Button>
             <Navigation home history={props.history}/>
-            <Sidebar title="Friends">
+            <Sidebar title="Friends  🙋🏼‍♂️ ">
                 <Users/>
             </Sidebar>  
-        {props.personId&&props.meId ? <Messenger messages={props.messages} id={props.personId} meId={props.meId}/> : null }
+        {props.personId&&props.meId ? <Messenger messages={props.messages}/> : <h1 className={classes.h1}>Choose friend or Add him  🧔 </h1> }
 
         </>
     )

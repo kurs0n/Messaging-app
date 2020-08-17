@@ -3,8 +3,6 @@ import axios from 'axios';
 import User from '../../components/User/User';
 import * as actions from '../../store/actions/index';
 import {connect} from 'react-redux';
-import openSocket from 'socket.io-client';
-const socket = openSocket('http://localhost:3000/');
 
 const Users = props =>{
     const [users,setUsers] = useState([]);
@@ -32,9 +30,10 @@ const Users = props =>{
             console.log(err);
         })
     };
+    let users_not_accepted = null;
     return (
         <>
-        {users.map(friend=> {
+        {users.length ? users.map(friend=> {
             if (friend.accepted===true)
             {
             return (
@@ -45,7 +44,15 @@ const Users = props =>{
                 </User>
             );
             }
-        })}
+            else
+            {
+                users_not_accepted++;
+                if(users.length===users_not_accepted)
+                {
+                    return(<p style={{fontWeight: 'bold',textAlign: 'center',fontSize: 25, marginTop: '50%'}}>You don't have friends😮 Add them!🤯</p>);
+                }
+            }
+        }) : <p style={{fontWeight: 'bold',textAlign: 'center',fontSize: 25, marginTop: '50%'}}>You don't have friends😮 Add them!🤯</p>}
         </>
     )
 }
