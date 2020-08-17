@@ -13,14 +13,14 @@ import * as actions from '../../store/actions/index';
 const Panel = props=>{
     useEffect(()=>{
         axios.get('http://localhost:3000/user/me',{
-            headers: {
+            headers:{
                 'Authorization': 'Bearer '+localStorage.getItem('token')
             }
         })
         .then(response=>{
             props.setMe(response.data.id);
         })
-    },[]);
+    },[])
     return (
         <>
             <Button className={classes.Button} onClick={()=>{
@@ -31,7 +31,7 @@ const Panel = props=>{
             <Sidebar title="Friends">
                 <Users/>
             </Sidebar>  
-            {props.meId ? <Messenger messages={props.messages} id={props.meId}/> : null}
+        {props.personId&&props.meId ? <Messenger messages={props.messages} id={props.personId} meId={props.meId}/> : null }
 
         </>
     )
@@ -40,15 +40,16 @@ const Panel = props=>{
 const mapStateToProps = state =>{
     return {
         messages: state.messages,
+        personId: state.personId,
         meId: state.meId
     }
 };
 
-const mapDispatchToProps = dispatch =>{
+const mapDispatchToProps = dispatch=>{
     return {
         setMe: (id)=>dispatch(actions.addMe(id))
     }
-};
+}
 
 
 export default connect(mapStateToProps,mapDispatchToProps)(Panel);

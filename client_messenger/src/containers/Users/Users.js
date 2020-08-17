@@ -3,6 +3,8 @@ import axios from 'axios';
 import User from '../../components/User/User';
 import * as actions from '../../store/actions/index';
 import {connect} from 'react-redux';
+import openSocket from 'socket.io-client';
+const socket = openSocket('http://localhost:3000/');
 
 const Users = props =>{
     const [users,setUsers] = useState([]);

@@ -21,7 +21,7 @@ const Messenger = props =>{
             return null
         }
         axios.post('http://localhost:3000/user/message',{
-         id: props.personId,
+         id: props.id,
          message: input 
         },{
             headers: {
@@ -31,7 +31,7 @@ const Messenger = props =>{
         .then(response =>{
             axios.get('http://localhost:3000/user/conversation',{headers:{
                 'Authorization': 'Bearer ' + localStorage.getItem('token'),
-                'person2': props.personId 
+                'person2': props.id 
             }}).then(response=>{
                 props.setMessages(response.data.messages);
                 setInput('');
@@ -49,14 +49,25 @@ const Messenger = props =>{
 
     useEffect(()=>{
         socket.emit('connect');
-        socket.on('message',(data)=>{
-            console.log(props.personId);
-            console.log(data.person._id);
-            if(props.personId.toString()===data.person._id.toString())
+        socket.on('message',(data)=>{ //    IT WORKS !!!
+            axios.get('http://localhost:3000/user/conversation',{headers:{
+                'Authorization': 'Bearer ' + localStorage.getItem('token'),
+                'person2': data.person._id 
+            }}).then(response=>{
+                if(props.personId === data.person._id)
+                {
+                props.setMessages(response.data.messages);
+                setInput('');
+                }
+            }).catch(err=>{
+                console.log(err);
+            })
+            /*if(props.id===data.person._id && data.personGetMessage.toString()===props.meId.toString())
             {
-                props.addMessage(data);
-            }
+            props.addMessage(data);
+            }*/
         });
+        return ()=>socket.off('message');
     },[props.personId]);
 
     useEffect(scrollToBottom,[props.messages]); // scroll if our messages are changed
@@ -98,7 +109,8 @@ const mapStateToProps = state =>{
 const mapDispatchToProps = dispatch=>{
     return {
         setMessages: (messages)=>dispatch(actions.setMessages(messages)),
-        addMessage: (data)=>dispatch(actions.addMessage(data))
+        addMessage: (data)=>dispatch(actions.addMessage(data)),
+        setPerson: (id)=>dispatch(actions.setUser(id))
     }
 }
 
