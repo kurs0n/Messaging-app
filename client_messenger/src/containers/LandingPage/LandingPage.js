@@ -1,14 +1,16 @@
 import React,{useState} from 'react';
 import classes from './LandingPage.module.css';
 import Navigation from '../../components/Navigation/Navigation';
-import {Form,Button,Image} from 'react-bootstrap';
+import {Form,Button,Image,Spinner} from 'react-bootstrap';
 import {Link} from 'react-router-dom';
 import axios from 'axios';
 
 const LandingPage = props=>{
     const [state,setState]= useState({
         login: '',
-        password: ''
+        password: '',
+        error: undefined,
+        loading: false
     });
 
     const inputHandler = event =>{
@@ -19,6 +21,10 @@ const LandingPage = props=>{
     }
     
     const login = ()=>{
+      setState({
+        ...state,
+        loading: true
+      });
       axios.post('http://localhost:3000/auth/login',{
         login: state.login,
         password: state.password
@@ -26,10 +32,17 @@ const LandingPage = props=>{
       .then(response=>{
         localStorage.setItem('token',response.data.token);
         window.location.reload(false);
-        console.log(response); 
+        setState({
+          ...state,
+          loading: false
+        }); // why?
       })
       .catch(err=>{
-        console.log(err);
+        setState({
+          ...state,
+          error: err,
+          loading: false
+        });
       })
     }
 
@@ -45,9 +58,12 @@ const LandingPage = props=>{
           <Form.Group controlId="formBasicLogin">
             <Form.Control type="text" placeholder="Enter Password" className={classes.input} style={{width: '50%'}} name="password" onChange={inputHandler} value={state.password}/>
           </Form.Group>
+          { state.loading ? <Spinner animation="border" variant="dark"/> :
           <Button variant='dark' className={classes.button} onClick={login}>
             Login
-         </Button>
+         </Button> 
+         }
+         {state.error ? <p>Wrong login or password🤥</p> : null }
         </Form>
       </div>
       <div style={{textAlign: 'center'}}>
