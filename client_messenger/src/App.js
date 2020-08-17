@@ -5,6 +5,7 @@ import About from './components/About/About';
 import NotFind from './components/NotFind/NotFind';
 import Panel from './containers/Panel/Panel';
 import Social from './containers/Social/Social';
+import Register from './containers/RegisterPage/RegisterPage';
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         }
         <Route path="/about" component={About}/>
         <Route path="/social" component={Social}/>
+        <Route path="/register" component={Register}/>
         <Route component={NotFind}/>
       </Switch>
     </BrowserRouter>

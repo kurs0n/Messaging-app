@@ -21,6 +21,11 @@ const Social = props =>{
         });
 
     }
+
+    const loginButtonHandler = ()=>{
+        props.history.push('/');
+    }
+
     const addFriend = (id) =>{
         axios.post('http://localhost:3000/user/add_friend',{
             id: id.toString()
@@ -236,7 +241,11 @@ const Social = props =>{
             return(
                 <>
                 <Navigation social history={props.history}/>
-                <h1>Login first</h1>
+                <h1 style={{marginTop: '9%',textAlign: 'center',fontSize: 50}}>Login first 📜 </h1>
+                <h1 style={{marginTop: '9%',textAlign: 'center',fontSize: 50}}>And Start Messaging ✏️ </h1>
+                <div style={{textAlign: 'center'}}>
+                    <Button variant="dark" style={{marginTop: '75px', width: '30%'}} onClick={loginButtonHandler}>Login</Button>
+                </div>
                 </>
             )
         }

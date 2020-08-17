@@ -1,8 +1,9 @@
-import React,{useEffect} from 'react';
+import React,{useEffect,useState} from 'react';
 import Navigation from '../../components/Navigation/Navigation';
 import Users from '../Users/Users';
 import Sidebar from '../../components/Sidebar/Sidebar';
 import Messenger from '../Messenger/Messenger';
+import InformationUser from '../../components/InformationUser/InformationUser';
 import {connect} from 'react-redux';
 import {Button} from 'react-bootstrap';
 import classes from './Panel.module.css';
@@ -11,6 +12,10 @@ import * as actions from '../../store/actions/index';
 
 
 const Panel = props=>{
+    const [state,setState] = useState({
+        name: '',
+        surname: ''
+    }); 
     useEffect(()=>{
         axios.get('http://localhost:3000/user/me',{
             headers:{
@@ -19,6 +24,10 @@ const Panel = props=>{
         })
         .then(response=>{
             props.setMe(response.data.id);
+            setState({
+                name: response.data.name,
+                surname: response.data.surname
+            })
         })
     },[])
     return (
@@ -31,6 +40,7 @@ const Panel = props=>{
             <Sidebar title="Friends  🙋🏼‍♂️ ">
                 <Users/>
             </Sidebar>  
+            <InformationUser name={state.name} surname={state.surname}/>
         {props.personId&&props.meId ? <Messenger messages={props.messages}/> : <h1 className={classes.h1}>Choose friend or Add him  🧔 </h1> }
 
         </>

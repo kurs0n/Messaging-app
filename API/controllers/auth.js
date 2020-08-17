@@ -20,10 +20,12 @@ module.exports.signup = async (req,res,next)=>{
         return next(error);
     }
     const account = new Account({...req.body,password: await bcrypt.hash(req.body.password,12)});
+    const token = await jwt.sign({id: account._id.toString()},process.env.SECRET_KEY,{expiresIn: '1h'});
     await account.save();
     res.status(201).json({
         account: account,
-        message: 'Succesfully created account'
+        message: 'Succesfully created account',
+        token: token
     })
 };
 
