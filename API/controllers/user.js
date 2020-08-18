@@ -77,7 +77,10 @@ module.exports.sendMessage = async (req,res,next)=>{
             personGetMessage: userWhoGetMessage
         });
         res.status(200).json({
-            message: 'Send message'
+            _id: conversationindb.messages[conversationindb.messages.length-1]._id,
+            person: person,
+            message: message,
+            personGetMessage: userWhoGetMessage
         });
     }
 };  

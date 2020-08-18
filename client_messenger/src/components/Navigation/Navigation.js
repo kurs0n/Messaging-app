@@ -8,11 +8,12 @@ const navigationBar = props=>{
 
     return (
         <div className={classes.nav}>
-            {props.social ? <p className={classes.active}>
+            {props.social ? <p className={classes.active}> 
                 Social
             </p> : <p onClick={()=> changeRoute('/social')}>
                 Social
-            </p>}
+            </p> // routing 
+            }
             {props.home ? <p className={classes.active}>Home</p> : 
             <p onClick={()=> changeRoute('/')}>
                 Home

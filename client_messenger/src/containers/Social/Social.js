@@ -60,13 +60,13 @@ const Social = props =>{
         })
     }
 
-    const acceptFriend = (id)=>{ // yea mess
+    const acceptFriend = (id)=>{
         axios.patch('http://localhost:3000/user/accept_friend',{
             id: id.toString()
         },{headers:{
             'Authorization': 'Bearer '+localStorage.getItem('token')
         }}).then(response=>{
-            let accounts;
+            let accounts; // we must do it like this because this is not working if we want to setState
             axios.get("http://localhost:3000/user/users",{headers: {
                 "Authorization": "Bearer "+localStorage.getItem('token'),
                 "input": state.input
@@ -120,7 +120,7 @@ const Social = props =>{
                             {
                                 if(friend.send===true&&friend.accepted===false)
                                 {
-                                    temp3 = (<p style={{fontWeight: 'bold'}}>Waiting for accept 👍🏻 </p>);
+                                    temp3 = (<p style={{fontWeight: 'bold'}}>Waiting for accept <span role="img" aria-label="Thumbs Up">👍🏻</span> </p>);
                                     temp2 = true;
                                 }
                                 else if(friend.send===false&&friend.accepted===false)
@@ -130,7 +130,7 @@ const Social = props =>{
                                 }
                                 else if(friend.accepted===true)
                                 {
-                                    temp3 = (<p style={{fontWeight: 'bold'}}>This is your friend 👨🏽‍💻</p>);
+                                    temp3 = (<p style={{fontWeight: 'bold'}}>This is your friend <span role="img" aria-label="Man Technologist">👨🏽‍💻</span></p>);
                                     temp2 = true;
                                 }
                             }
@@ -139,7 +139,7 @@ const Social = props =>{
                     {
                         temp2 ? temp3 : <Button variant="dark" className={classes.Button} onClick={()=>
                             addFriend(people._id)}>Add Friend</Button>
-                    }
+                    } 
 
                 </li>
             )

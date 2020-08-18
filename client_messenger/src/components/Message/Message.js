@@ -2,9 +2,9 @@ import React from 'react';
 
 const message = props =>{
     return(
-        <p>
-            {props.children}
-        </p>
+        <div style={{marginTop: 15}}>
+        {props.children}
+        </div>
     )
 }
 

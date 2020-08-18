@@ -29,15 +29,8 @@ const Messenger = props =>{
             }
         })
         .then(response =>{
-            axios.get('http://localhost:3000/user/conversation',{headers:{
-                'Authorization': 'Bearer ' + localStorage.getItem('token'),
-                'person2': props.personId 
-            }}).then(response=>{
-                props.setMessages(response.data.messages);
-                setInput('');
-            }).catch(err=>{
-                console.log(err);
-            })
+            props.addMessage(response.data);
+            setInput('');
         })
         .catch(err=>{
             console.log(err);
@@ -50,6 +43,7 @@ const Messenger = props =>{
     useEffect(()=>{
         socket.emit('connect');
         socket.on('message',(data)=>{ //    IT WORKS !!!
+            console.log(data);
                 if(props.personId === data.person._id && data.personGetMessage.toString()===props.meId.toString())
                 {
                 props.addMessage(data);

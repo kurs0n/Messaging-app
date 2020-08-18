@@ -2,7 +2,7 @@ import React from 'react';
 import Navigation from '../Navigation/Navigation';
 import classes from './About.module.css';
 
-const about = props =>{
+const about = props =>{ //this about tab in navigation
     return (
         <>
         <Navigation about history={props.history}/>

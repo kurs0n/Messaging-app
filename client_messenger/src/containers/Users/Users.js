@@ -6,7 +6,7 @@ import {connect} from 'react-redux';
 
 const Users = props =>{
     const [users,setUsers] = useState([]);
-    useEffect(()=>{
+    useEffect(()=>{ //component did mount setting users with our friends
         axios.get('http://localhost:3000/user/friends',{headers: {
             'Authorization': 'Bearer '+localStorage.getItem('token')
         }})
@@ -17,7 +17,7 @@ const Users = props =>{
             console.log(err);
         });
     },[]);
-    const setUser = personId =>{
+    const setUser = personId =>{ // setting user conversation after click on it in friends tab
         props.setUser(personId);
         axios.get('http://localhost:3000/user/conversation',{headers:{
             "person2": personId,
@@ -34,7 +34,7 @@ const Users = props =>{
     return (
         <>
         {users.length ? users.map(friend=> {
-            if (friend.accepted===true)
+            if (friend.accepted===true) // if we have friends which has accepted status
             {
             return (
                 <User key={friend.friend._id} click={()=>{setUser(friend.friend._id.toString())}} id={friend.friend._id} > {
@@ -47,7 +47,7 @@ const Users = props =>{
             else
             {
                 users_not_accepted++;
-                if(users.length===users_not_accepted)
+                if(users.length===users_not_accepted) // avoiding multiple users who is not accepted
                 {
                     return(<p style={{fontWeight: 'bold',textAlign: 'center',fontSize: 25, marginTop: '50%'}}>You don't have friends😮 Add them!🤯</p>);
                 }

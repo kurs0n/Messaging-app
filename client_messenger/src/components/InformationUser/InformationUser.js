@@ -2,7 +2,7 @@ import React from 'react';
 import classes from './InformationUser.module.css';
 import {Spinner} from 'react-bootstrap';
 
-const informationUser = props =>{
+const informationUser = props =>{ 
     return(
         <div className={classes.div}>
             <h1 style={{textAlign: 'center'}}>Me👾</h1>

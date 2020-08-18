@@ -8,7 +8,7 @@ const user = props=>{
             {props.children}
         </p>
     );
-    if(props.id.toString()===props.personId)
+    if(props.id.toString()===props.personId) // if we have user props.id
     {
         user = (
             <p className={classes.active} onClick={props.click}>

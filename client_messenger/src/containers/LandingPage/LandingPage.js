@@ -25,7 +25,7 @@ const LandingPage = props=>{
         ...state,
         loading: true
       });
-      axios.post('http://localhost:3000/auth/login',{
+      axios.post('http://localhost:3000/auth/login',{ 
         login: state.login,
         password: state.password
       })
