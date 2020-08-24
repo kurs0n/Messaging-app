@@ -57,6 +57,12 @@ module.exports.sendMessage = async (req,res,next)=>{
             }]
         });
         conversation.save();
+        socket.emit('message',{
+            _id: conversation.messages[conversation.messages.length-1]._id,
+            person: person,
+            message: message,
+            personGetMessage: userWhoGetMessage
+        });
         res.status(201).json({
             message: 'Created conversation and send message'
         })

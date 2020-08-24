@@ -15,7 +15,8 @@ const about = props =>{ //this about tab in navigation
             <div>
                 <a href="https://github.com/patryk404"><img src={require('../../images/GitHub.png')} width='60' height='60' className={classes.img}/></a>
                 <a href="mailto:patryk744@op.pl"><img src={require('../../images/gmail.png')} width='60' height='60' className={classes.img}/></a>
-                <a href="https://www.linkedin.com/in/patryk-kurek-5150491b3/"><img src={require('../../images/linkedin.png')} width='60' height='60' className={classes.img}/></a>
+                <a href="https://www.linkedin.com/in/patryk-kurek-5150491b3/"><img src={require('../../images/linkedin.png')} width='75' height='60' className={classes.img}/></a>
+                <a href="https://www.instagram.com/patryk404_dev/"><img src={require('../../images/Instagram.png')} width='60' height='60' className={classes.img}/></a>
             </div>
         </div>
         </>
