@@ -2,6 +2,7 @@ import React,{useEffect,useState} from 'react';
 import Navigation from '../../components/Navigation/Navigation';
 import Users from '../Users/Users';
 import Sidebar from '../../components/Sidebar/Sidebar';
+import Emoji from '../../components/Emoji/Emoji';
 import Messenger from '../Messenger/Messenger';
 import InformationUser from '../../components/InformationUser/InformationUser';
 import {connect} from 'react-redux';
@@ -29,7 +30,7 @@ const Panel = props=>{
                 surname: response.data.surname
             })
         })
-    },[])
+    },[props])
     return (
         <>
             <Button variant="dark" className={classes.Button} onClick={()=>{
@@ -41,7 +42,7 @@ const Panel = props=>{
                 <Users/>
             </Sidebar>  
             <InformationUser name={state.name} surname={state.surname}/>
-        {props.personId&&props.meId ? <Messenger messages={props.messages}/> : <h1 className={classes.h1}>Choose friend or Add him  🧔 </h1> }
+        {props.personId&&props.meId ? <Messenger messages={props.messages}/> : <h1 className={classes.h1}>Choose friend or Add him <Emoji symbol="🧔"/></h1> }
 
         </>
     )

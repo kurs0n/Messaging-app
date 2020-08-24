@@ -56,7 +56,7 @@ const Messenger = props =>{
             }*/
         });
         return ()=>socket.off('message');
-    },[props.personId]);
+    },[props.personId,props]);
 
     useEffect(scrollToBottom,[props.messages]); // scroll if our messages are changed
 

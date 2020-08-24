@@ -39,17 +39,17 @@ const Social = props =>{
                         "Authorization": 'Bearer '+ localStorage.getItem('token')
                     }
                 }).then(response=>{
-                    setState({
-                        ...state,
+                    setState(prevState =>{return {
+                        ...prevState,
                         friends: response.data.friends,
                         accounts: accounts,
                         loading: false
-                    });
+                    }});
                 }).catch(err=>{
                     console.log(err);
                 })
             });
-    },[state.input]);
+    },[state.input]); // warning here fix it
 
     const getMe = useCallback(()=>{
         axios.get('http://localhost:3000/user/me',{headers:{
@@ -145,10 +145,10 @@ const Social = props =>{
         let timer;
         if (localStorage.token)
         {
-            setState({
-                ...state,
+            setState(prevState=>{return{
+                ...prevState,
                 loading: true
-            });
+            }});
             timer = setTimeout(()=>{
                 getUsersAndFriends();
             },400);

@@ -53,6 +53,7 @@ const Users = props =>{
                     return(<p style={{fontWeight: 'bold',textAlign: 'center',fontSize: 25, marginTop: '50%'}}>You don't have friends<Emoji symbol="😮"/> Add them!<Emoji symbol="🤯"/></p>);
                 }
             }
+            return null;
         }) : <p style={{fontWeight: 'bold',textAlign: 'center',fontSize: 25, marginTop: '50%'}}>You don't have friends<Emoji symbol="😮"/> Add them!<Emoji symbol="🤯"/></p>}
         </>
     )
