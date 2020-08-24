@@ -37,7 +37,7 @@ const Panel = props=>{
                 window.location.reload(false);
             }}>logout</Button>
             <Navigation home history={props.history}/>
-            <Sidebar title="Friends  🙋🏼‍♂️ ">
+            <Sidebar title="Friends">
                 <Users/>
             </Sidebar>  
             <InformationUser name={state.name} surname={state.surname}/>

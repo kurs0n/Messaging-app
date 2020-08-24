@@ -1,6 +1,7 @@
 import React,{useState} from 'react';
 import classes from './LandingPage.module.css';
 import Navigation from '../../components/Navigation/Navigation';
+import Emoji from '../../components/Emoji/Emoji';
 import {Form,Button,Image,Spinner} from 'react-bootstrap';
 import {Link} from 'react-router-dom';
 import axios from 'axios';
@@ -63,7 +64,7 @@ const LandingPage = props=>{
             Login
          </Button> 
          }
-         {state.error ? <p>Wrong login or password🤥</p> : null }
+         {state.error ? <p>Wrong login or password<Emoji symbol="🤥"/></p> : null }
         </Form>
       </div>
       <div style={{textAlign: 'center'}}>

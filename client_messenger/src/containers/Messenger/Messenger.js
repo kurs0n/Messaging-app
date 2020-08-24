@@ -1,6 +1,7 @@
 import React,{useState, useEffect,useRef} from 'react';
 import Message from '../../components/Message/Message';
 import classes from './Messenger.module.css';
+import Emoji from '../../components/Emoji/Emoji';
 import {Form,Image} from 'react-bootstrap'; 
 import axios from 'axios';
 import {connect} from 'react-redux';
@@ -60,7 +61,7 @@ const Messenger = props =>{
     useEffect(scrollToBottom,[props.messages]); // scroll if our messages are changed
 
     let messages = null;
-    if (props.messages){
+    if (props.messages.length){
         messages= props.messages.map(message=>{
             return (
                 <Message key={message._id}>
@@ -71,7 +72,7 @@ const Messenger = props =>{
     }
     else
     {
-        messages = (<p>Type something !🤚🏻</p>)
+        messages = (<p>Type something !<Emoji symbol="✋"/></p>)
     }
     return(
         <div style={{

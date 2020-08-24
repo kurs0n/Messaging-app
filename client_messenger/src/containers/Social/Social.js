@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect,useCallback } from 'react';
 import Navigation from '../../components/Navigation/Navigation';
+import Emoji from '../../components/Emoji/Emoji';
 import {Form,Button,Spinner} from 'react-bootstrap';
 import classes from './Social.module.css';
 import axios from 'axios';
@@ -26,20 +27,14 @@ const Social = props =>{
         props.history.push('/');
     }
 
-    const addFriend = (id) =>{
-        axios.post('http://localhost:3000/user/add_friend',{
-            id: id.toString()
-        },{headers:{
-            "Authorization": 'Bearer '+localStorage.getItem('token')
-        }})
-        .then(response=>{
-            let accounts;
+    const getUsersAndFriends = useCallback(() => {
+        let accounts; // we must do it like this because this is not working if we want to setState
             axios.get("http://localhost:3000/user/users",{headers: {
                 "Authorization": "Bearer "+localStorage.getItem('token'),
                 "input": state.input
             }}).then(response=>{
                 accounts = response.data.accounts;
-                axios.get('http://localhost:3000/user/friends',{
+                axios.get('http://localhost:3000/user/friends',{ // getting friends and users to filter it in social tab 
                     headers:{
                         "Authorization": 'Bearer '+ localStorage.getItem('token')
                     }
@@ -53,11 +48,32 @@ const Social = props =>{
                 }).catch(err=>{
                     console.log(err);
                 })
+            });
+    },[state.input]);
+
+    const getMe = useCallback(()=>{
+        axios.get('http://localhost:3000/user/me',{headers:{
+            "Authorization": 'Bearer '+ localStorage.getItem('token')
+        }}).then(response=>{
+            props.setMe(response.data.id);
+        })
+        .catch(err=>{
+            console.log(err);
+        })
+    },[props]);
+
+    const addFriend = (id) =>{
+        axios.post('http://localhost:3000/user/add_friend',{
+            id: id.toString()
+        },{headers:{
+            "Authorization": 'Bearer '+localStorage.getItem('token')
+        }})
+        .then(response=>{
+            getUsersAndFriends();
             })
             .catch(err=>{
                 console.log(err);
-            })
-        })
+            });
     }
 
     const acceptFriend = (id)=>{
@@ -66,45 +82,23 @@ const Social = props =>{
         },{headers:{
             'Authorization': 'Bearer '+localStorage.getItem('token')
         }}).then(response=>{
-            let accounts; // we must do it like this because this is not working if we want to setState
-            axios.get("http://localhost:3000/user/users",{headers: {
-                "Authorization": "Bearer "+localStorage.getItem('token'),
-                "input": state.input
-            }}).then(response=>{
-                accounts = response.data.accounts;
-                axios.get('http://localhost:3000/user/friends',{
-                    headers:{
-                        "Authorization": 'Bearer '+ localStorage.getItem('token')
-                    }
-                }).then(response=>{
-                    setState({
-                        ...state,
-                        friends: response.data.friends,
-                        accounts: accounts,
-                        loading: false
-                    });
-                }).catch(err=>{
-                    console.log(err);
-                })
+                getUsersAndFriends();
             })
             .catch(err=>{
                 console.log(err);
-            })
-        })
-        .catch(err=>{
-            console.log(err);
-        })
-    }
+            });
+}
 
-    const filterUsers = ()=>{
+    const filterUsers = ()=>{ // filter user to not get yourself and displaying it actual status in relation to Account logged
         let temp = [];
         state.accounts.map(account=>{
-            state.friends.map(friend=>{
+            return state.friends.map(friend=>{
                 if (account._id.toString() === friend.friend._id.toString())
                 {
                  temp.push(account._id); // if we have friend 
                 }
-            })
+                return null;
+            });
         });
         const filtered = state.accounts.filter(people=> people._id.toString() !== props.id.toString()); // filter to not get yourself 
         return filtered.map(people=>{
@@ -120,97 +114,54 @@ const Social = props =>{
                             {
                                 if(friend.send===true&&friend.accepted===false)
                                 {
-                                    temp3 = (<p style={{fontWeight: 'bold'}}>Waiting for accept <span role="img" aria-label="Thumbs Up">👍🏻</span> </p>);
+                                    temp3 = (<p style={{fontWeight: 'bold'}}>Waiting for accept <Emoji symbol="👍🏻"/></p>);
                                     temp2 = true;
                                 }
                                 else if(friend.send===false&&friend.accepted===false)
                                 {
-                                    temp3 = (<Button variant="dark" className={classes.Button} onClick={()=>acceptFriend(people._id)}>Accept</Button>);
+                                    temp3 = (<Button variant="dark" className={classes.Button} onClick={()=>acceptFriend(people._id)}>Accept<Emoji symbol="🤝"/></Button>);
                                     temp2 = true;
                                 }
                                 else if(friend.accepted===true)
                                 {
-                                    temp3 = (<p style={{fontWeight: 'bold'}}>This is your friend <span role="img" aria-label="Man Technologist">👨🏽‍💻</span></p>);
+                                    temp3 = (<p style={{fontWeight: 'bold'}}>This is your friend <Emoji symbol="👨🏽‍💻"/></p>);
                                     temp2 = true;
                                 }
                             }
+                            return null;
                         })
                     }
                     {
                         temp2 ? temp3 : <Button variant="dark" className={classes.Button} onClick={()=>
-                            addFriend(people._id)}>Add Friend</Button>
+                            addFriend(people._id)}>Add Friend<Emoji symbol="👋"/></Button>
                     } 
 
                 </li>
             )
         });
-        /*return state.accounts.map(people=>{ previous lol
-            let temp2 = false;
-            return (
-                <li className={classes.li} key={people._id}>
-                    <p>{people.name}</p>
-                    <p>{people.surname}</p>
-                    {
-                        temp.map(value=>{
-                            if (value.toString()===people._id.toString())
-                            {
-                                temp2 = true;
-                            }
-                        })
-                    }
-                    {
-                        temp2 ? <p>This is your friend</p> : <Button className={classes.Button}>Add Friend</Button>
-                    }
-
-                </li>
-            )
-        });*/
     };
 
     useEffect(()=>{
-        setState({
-            ...state,
-            loading: true
-        });
-        const timer = setTimeout(()=>{
-            let accounts;
-            axios.get("http://localhost:3000/user/users",{headers: {
-                "Authorization": "Bearer "+localStorage.getItem('token'),
-                "input": state.input
-            }}).then(response=>{
-                accounts = response.data.accounts;
-                axios.get('http://localhost:3000/user/friends',{
-                    headers:{
-                        "Authorization": 'Bearer '+ localStorage.getItem('token')
-                    }
-                }).then(response=>{
-                    setState({
-                        ...state,
-                        friends: response.data.friends,
-                        accounts: accounts,
-                        loading: false
-                    });
-                }).catch(err=>{
-                    console.log(err);
-                })
-            })
-            .catch(err=>{
-                console.log(err);
-            })
-        },400);
+        let timer;
+        if (localStorage.token)
+        {
+            setState({
+                ...state,
+                loading: true
+            });
+            timer = setTimeout(()=>{
+                getUsersAndFriends();
+            },400);
+        }
         return ()=> clearTimeout(timer);
-    },[state.input]);
+    },[getUsersAndFriends]);
 
     useEffect(()=>{
-        axios.get('http://localhost:3000/user/me',{headers:{
-            "Authorization": 'Bearer '+ localStorage.getItem('token')
-        }}).then(response=>{
-            props.setMe(response.data.id);
-        })
-        .catch(err=>{
-            console.log(err);
-        })
-    },[]);
+        if (localStorage.token)
+        {
+        getMe();
+        }
+    },[getMe]);
 
     const users = filterUsers();
 
@@ -226,7 +177,7 @@ const Social = props =>{
         </Form>
         <ul className={classes.ul}>
             {
-                users
+                users.length ? users : state.loading ? null : <h1 style={{textAlign: 'center'}}>We can't find users <Emoji symbol="😵"/></h1>
             }
         </ul>
         <div style={{textAlign: 'center'}}>
@@ -241,8 +192,8 @@ const Social = props =>{
             return(
                 <>
                 <Navigation social history={props.history}/>
-                <h1 style={{marginTop: '9%',textAlign: 'center',fontSize: 50}}>Login first 📜 </h1>
-                <h1 style={{marginTop: '9%',textAlign: 'center',fontSize: 50}}>And Start Messaging ✏️ </h1>
+                <h1 style={{marginTop: '9%',textAlign: 'center',fontSize: 50}}>Login first <Emoji symbol="📜"/></h1>
+                <h1 style={{marginTop: '9%',textAlign: 'center',fontSize: 50}}>And Start Messaging <Emoji symbol="✏️"/> </h1>
                 <div style={{textAlign: 'center'}}>
                     <Button variant="dark" style={{marginTop: '75px', width: '30%'}} onClick={loginButtonHandler}>Login</Button>
                 </div>

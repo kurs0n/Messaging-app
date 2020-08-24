@@ -1,6 +1,7 @@
 import React,{useEffect, useState} from 'react';
 import axios from 'axios';
 import User from '../../components/User/User';
+import Emoji from '../../components/Emoji/Emoji';
 import * as actions from '../../store/actions/index';
 import {connect} from 'react-redux';
 
@@ -49,10 +50,10 @@ const Users = props =>{
                 users_not_accepted++;
                 if(users.length===users_not_accepted) // avoiding multiple users who is not accepted
                 {
-                    return(<p style={{fontWeight: 'bold',textAlign: 'center',fontSize: 25, marginTop: '50%'}}>You don't have friends😮 Add them!🤯</p>);
+                    return(<p style={{fontWeight: 'bold',textAlign: 'center',fontSize: 25, marginTop: '50%'}}>You don't have friends<Emoji symbol="😮"/> Add them!<Emoji symbol="🤯"/></p>);
                 }
             }
-        }) : <p style={{fontWeight: 'bold',textAlign: 'center',fontSize: 25, marginTop: '50%'}}>You don't have friends😮 Add them!🤯</p>}
+        }) : <p style={{fontWeight: 'bold',textAlign: 'center',fontSize: 25, marginTop: '50%'}}>You don't have friends<Emoji symbol="😮"/> Add them!<Emoji symbol="🤯"/></p>}
         </>
     )
 }

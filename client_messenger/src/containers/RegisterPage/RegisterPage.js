@@ -1,5 +1,6 @@
 import React,{useState} from 'react';
 import Navigation from '../../components/Navigation/Navigation';
+import Emoji from '../../components/Emoji/Emoji';
 import {Form,Button} from 'react-bootstrap';
 import classes from './RegisterPage.module.css';
 import axios from 'axios';
@@ -37,8 +38,8 @@ const RegisterPage = props=>{
         <>
         <Navigation home history={props.history}/>
         <div style={{margin: 'auto',marginTop: '30px',textAlign: 'center'}}>
-          <h1>Register<span role="img" aria-label="alien">👽</span></h1>
-          <h2>and start messaging<span role="img" aria-label="letter">✉️</span><span role="img" aria-label="Mailbox">📫</span></h2>
+          <h1>Register<Emoji symbol="👽"/></h1>
+          <h2>and start messaging<Emoji symbol="✉️"/><Emoji symbol="📫"/></h2>
         </div>
         <div className={classes.div}>
         <Form style={{marginTop: '25px'}}>
