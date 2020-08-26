@@ -23,9 +23,9 @@ const Social = props =>{
 
     }
 
-    const loginButtonHandler = ()=>{
+    const loginButtonHandler = useCallback(()=>{
         props.history.push('/');
-    }
+    },[props]);
 
     const getUsersAndFriends = useCallback(() => {
         let accounts; // we must do it like this because this is not working if we want to setState
@@ -49,7 +49,7 @@ const Social = props =>{
                     console.log(err);
                 })
             });
-    },[state.input]); // warning here fix it
+    },[state.input]); 
 
     const getMe = useCallback(()=>{
         axios.get('http://localhost:3000/user/me',{headers:{

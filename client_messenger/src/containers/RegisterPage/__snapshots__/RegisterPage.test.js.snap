@@ -1,0 +1,181 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<RegisterPage/> matches snapshot 1`] = `
+Array [
+  <div
+    className="nav"
+  >
+    <p
+      onClick={[Function]}
+    >
+      Social
+    </p>
+    <p
+      className="active"
+    >
+      Home
+    </p>
+    <p
+      onClick={[Function]}
+    >
+      About
+    </p>
+  </div>,
+  <div
+    style={
+      Object {
+        "margin": "auto",
+        "marginTop": "30px",
+        "textAlign": "center",
+      }
+    }
+  >
+    <h1>
+      Register
+      <span
+        aria-hidden="true"
+        aria-label=""
+        className="emoji"
+        role="img"
+      >
+        👽
+      </span>
+    </h1>
+    <h2>
+      and start messaging
+      <span
+        aria-hidden="true"
+        aria-label=""
+        className="emoji"
+        role="img"
+      >
+        ✉️
+      </span>
+      <span
+        aria-hidden="true"
+        aria-label=""
+        className="emoji"
+        role="img"
+      >
+        📫
+      </span>
+    </h2>
+  </div>,
+  <div
+    className="div"
+  >
+    <form
+      className=""
+      style={
+        Object {
+          "marginTop": "25px",
+        }
+      }
+    >
+      <div
+        className="form-group"
+      >
+        <input
+          className="form-control"
+          name="email"
+          onChange={[Function]}
+          placeholder="Enter Email"
+          style={
+            Object {
+              "margin": "auto",
+              "width": "50%",
+            }
+          }
+          type="email"
+          value=""
+        />
+      </div>
+      <div
+        className="form-group"
+      >
+        <input
+          className="form-control"
+          name="name"
+          onChange={[Function]}
+          placeholder="Enter Name"
+          style={
+            Object {
+              "margin": "auto",
+              "width": "50%",
+            }
+          }
+          type="text"
+          value=""
+        />
+      </div>
+      <div
+        className="form-group"
+      >
+        <input
+          className="form-control"
+          name="surname"
+          onChange={[Function]}
+          placeholder="Enter Surname"
+          style={
+            Object {
+              "margin": "auto",
+              "width": "50%",
+            }
+          }
+          type="text"
+          value=""
+        />
+      </div>
+      <div
+        className="form-group"
+      >
+        <input
+          className="form-control"
+          name="login"
+          onChange={[Function]}
+          placeholder="Enter Login"
+          style={
+            Object {
+              "margin": "auto",
+              "width": "50%",
+            }
+          }
+          type="text"
+          value=""
+        />
+      </div>
+      <div
+        className="form-group"
+      >
+        <input
+          className="form-control"
+          name="password"
+          onChange={[Function]}
+          placeholder="Enter Password"
+          style={
+            Object {
+              "margin": "auto",
+              "width": "50%",
+            }
+          }
+          type="password"
+          value=""
+        />
+      </div>
+      <button
+        className="btn btn-dark"
+        disabled={false}
+        onClick={[Function]}
+        style={
+          Object {
+            "marginBottom": "30px",
+          }
+        }
+        type="button"
+      >
+        Register
+      </button>
+    </form>
+  </div>,
+]
+`;

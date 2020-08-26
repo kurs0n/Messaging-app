@@ -1,0 +1,33 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Users/> matches snapshot 1`] = `
+<p
+  style={
+    Object {
+      "fontSize": 25,
+      "fontWeight": "bold",
+      "marginTop": "50%",
+      "textAlign": "center",
+    }
+  }
+>
+  You don't have friends
+  <span
+    aria-hidden="true"
+    aria-label=""
+    className="emoji"
+    role="img"
+  >
+    😮
+  </span>
+   Add them!
+  <span
+    aria-hidden="true"
+    aria-label=""
+    className="emoji"
+    role="img"
+  >
+    🤯
+  </span>
+</p>
+`;

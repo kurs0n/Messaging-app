@@ -1,0 +1,171 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Panel/> matches snapshot 1`] = `
+Array [
+  <button
+    className="Button btn btn-dark"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    logout
+  </button>,
+  <div
+    className="nav"
+  >
+    <p
+      onClick={[Function]}
+    >
+      Social
+    </p>
+    <p
+      className="active"
+    >
+      Home
+    </p>
+    <p
+      onClick={[Function]}
+    >
+      About
+    </p>
+  </div>,
+  <div
+    className="sidebar"
+  >
+    <h1
+      className="h1"
+    >
+      Friends
+      <span
+        aria-hidden="true"
+        aria-label=""
+        className="emoji"
+        role="img"
+      >
+        🙋🏼‍♂️
+      </span>
+    </h1>
+    <p
+      style={
+        Object {
+          "fontSize": 25,
+          "fontWeight": "bold",
+          "marginTop": "50%",
+          "textAlign": "center",
+        }
+      }
+    >
+      You don't have friends
+      <span
+        aria-hidden="true"
+        aria-label=""
+        className="emoji"
+        role="img"
+      >
+        😮
+      </span>
+       Add them!
+      <span
+        aria-hidden="true"
+        aria-label=""
+        className="emoji"
+        role="img"
+      >
+        🤯
+      </span>
+    </p>
+  </div>,
+  <div
+    className="div"
+  >
+    <h1
+      style={
+        Object {
+          "textAlign": "center",
+        }
+      }
+    >
+      Me
+      <span
+        aria-hidden="true"
+        aria-label=""
+        className="emoji"
+        role="img"
+      >
+        👾
+      </span>
+    </h1>
+    <div
+      style={
+        Object {
+          "marginTop": 50,
+          "textAlign": "center",
+        }
+      }
+    >
+      <div
+        className="spinner-border text-dark"
+      />
+    </div>
+  </div>,
+  <div
+    style={
+      Object {
+        "borderColor": "black",
+        "borderWidth": "1px",
+      }
+    }
+  >
+    <div
+      className="messenger"
+    >
+      <div
+        style={
+          Object {
+            "marginTop": 15,
+          }
+        }
+      >
+        <p
+          style={
+            Object {
+              "display": "inline",
+              "fontWeight": "bold",
+            }
+          }
+        >
+          siema
+          :
+        </p>
+         
+        elooooooo
+      </div>
+      <div />
+       
+    </div>
+    <form
+      className="form"
+      onSubmit={[Function]}
+    >
+      <div
+        className="form-group"
+      >
+        <input
+          className="input form-control"
+          id="formBasicEmail"
+          name="textInput"
+          onChange={[Function]}
+          placeholder="Enter Some text"
+          type="text"
+          value=""
+        />
+      </div>
+    </form>
+    <img
+      className="image"
+      onClick={[Function]}
+      src="send.png"
+    />
+  </div>,
+]
+`;
