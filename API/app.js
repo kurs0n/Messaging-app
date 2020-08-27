@@ -11,7 +11,7 @@ app.use(helmet());
 app.use(bodyParser.json());
 
 app.use((req, res, next) => {//cors policy
-    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Origin', 'https://messengerclientgithub.herokuapp.com');
     res.setHeader(
       'Access-Control-Allow-Methods',
       'OPTIONS, GET, POST, PUT, PATCH, DELETE'
@@ -36,7 +36,7 @@ app.use((error,req,res,next)=>{//error handling
 mongoose.connect(process.env.DB_URL,{useNewUrlParser: true,useUnifiedTopology:true})
 .then(result=>{
     console.log('connected with database');
-    const server=app.listen(3000);
+    const server=app.listen(process.env.PORT || 3000);
     const socket = require('./utils/socket').init(server);
     socket.on('connect',socket=>{
       console.log('connected');
