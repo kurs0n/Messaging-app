@@ -4,6 +4,7 @@ import Emoji from '../../components/Emoji/Emoji';
 import {Form,Button} from 'react-bootstrap';
 import classes from './RegisterPage.module.css';
 import axios from 'axios';
+import {url} from '../../ApiUrl';
 
 const RegisterPage = props=>{
     const [state,setState] = useState({
@@ -21,7 +22,7 @@ const RegisterPage = props=>{
     }
 
     const submitUser = ()=>{
-      axios.post('http://localhost:3000/auth/signup',{
+      axios.post(url+'/auth/signup',{
       ...state
       })
       .then(response=>{

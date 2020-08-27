@@ -4,11 +4,12 @@ import User from '../../components/User/User';
 import Emoji from '../../components/Emoji/Emoji';
 import * as actions from '../../store/actions/index';
 import {connect} from 'react-redux';
+import {url} from '../../ApiUrl';
 
 const Users = props =>{
     const [users,setUsers] = useState([]);
     useEffect(()=>{ //component did mount setting users with our friends
-        axios.get('http://localhost:3000/user/friends',{headers: {
+        axios.get(url+'/user/friends',{headers: {
             'Authorization': 'Bearer '+localStorage.getItem('token')
         }})
         .then(response =>{
@@ -20,7 +21,7 @@ const Users = props =>{
     },[]);
     const setUser = personId =>{ // setting user conversation after click on it in friends tab
         props.setUser(personId);
-        axios.get('http://localhost:3000/user/conversation',{headers:{
+        axios.get(url+'/user/conversation',{headers:{
             "person2": personId,
             "Authorization": "Bearer "+ localStorage.getItem('token')
         }})

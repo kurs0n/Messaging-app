@@ -9,6 +9,7 @@ import {connect} from 'react-redux';
 import {Button} from 'react-bootstrap';
 import classes from './Panel.module.css';
 import axios from 'axios';
+import {url} from '../../ApiUrl';
 import * as actions from '../../store/actions/index';
 
 
@@ -18,7 +19,7 @@ const Panel = props=>{
         surname: ''
     }); 
     useEffect(()=>{
-        axios.get('http://localhost:3000/user/me',{
+        axios.get(url+'/user/me',{
             headers:{
                 'Authorization': 'Bearer '+localStorage.getItem('token')
             }

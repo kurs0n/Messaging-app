@@ -3,8 +3,11 @@ const bodyParser = require('body-parser');
 const authRoute = require('./routes/auth');
 const userRoute = require('./routes/user');
 const mongoose = require('mongoose');
+const helmet = require('helmet');
 require('dotenv').config();
 
+app.use(helmet());
+ 
 app.use(bodyParser.json());
 
 app.use((req, res, next) => {//cors policy

@@ -21,3 +21,12 @@
 .Button {
     margin-bottom: 10px;
 }
+
+.Button_logout {
+    position: absolute; 
+    margin-left: 20px; 
+    margin-top: 5px;
+    top: 1px;
+    width: 20%;
+    height: 50px;
+}

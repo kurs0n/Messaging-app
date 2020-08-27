@@ -6,6 +6,7 @@ import classes from './Social.module.css';
 import axios from 'axios';
 import * as actions from '../../store/actions/index';
 import {connect} from 'react-redux';
+import {url} from '../../ApiUrl';
 
 const Social = props =>{
     const [state,setState] = useState({
@@ -29,12 +30,12 @@ const Social = props =>{
 
     const getUsersAndFriends = useCallback(() => {
         let accounts; // we must do it like this because this is not working if we want to setState
-            axios.get("http://localhost:3000/user/users",{headers: {
+            axios.get(url+"/user/users",{headers: {
                 "Authorization": "Bearer "+localStorage.getItem('token'),
                 "input": state.input
             }}).then(response=>{
                 accounts = response.data.accounts;
-                axios.get('http://localhost:3000/user/friends',{ // getting friends and users to filter it in social tab 
+                axios.get(url+'/user/friends',{ // getting friends and users to filter it in social tab 
                     headers:{
                         "Authorization": 'Bearer '+ localStorage.getItem('token')
                     }
@@ -52,7 +53,7 @@ const Social = props =>{
     },[state.input]); 
 
     const getMe = useCallback(()=>{
-        axios.get('http://localhost:3000/user/me',{headers:{
+        axios.get(url+'/user/me',{headers:{
             "Authorization": 'Bearer '+ localStorage.getItem('token')
         }}).then(response=>{
             props.setMe(response.data.id);
@@ -63,7 +64,7 @@ const Social = props =>{
     },[props]);
 
     const addFriend = (id) =>{
-        axios.post('http://localhost:3000/user/add_friend',{
+        axios.post(url+'/user/add_friend',{
             id: id.toString()
         },{headers:{
             "Authorization": 'Bearer '+localStorage.getItem('token')
@@ -77,7 +78,7 @@ const Social = props =>{
     }
 
     const acceptFriend = (id)=>{
-        axios.patch('http://localhost:3000/user/accept_friend',{
+        axios.patch(url+'/user/accept_friend',{
             id: id.toString()
         },{headers:{
             'Authorization': 'Bearer '+localStorage.getItem('token')
@@ -170,6 +171,10 @@ const Social = props =>{
     return (
         <>
         <Navigation social history={props.history}/>
+        <Button variant="dark" className={classes.Button_logout} onClick={()=>{
+                localStorage.removeItem('token');
+                window.location.reload(false);
+        }}>logout</Button>
         <Form className={classes.socialinput}>
             <Form.Group controlId="formBasicEmail">
                 <Form.Control type="text" placeholder="Search Friends by typing their names 🧙‍♂️" value={state.input} onChange={handleChange}/>

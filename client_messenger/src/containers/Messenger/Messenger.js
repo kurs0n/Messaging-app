@@ -6,13 +6,14 @@ import {Form,Image} from 'react-bootstrap';
 import axios from 'axios';
 import {connect} from 'react-redux';
 import openSocket from 'socket.io-client';
+import {url} from '../../ApiUrl';
 import * as actions from '../../store/actions/index';
 
-const socket = openSocket('http://localhost:3000/');
+const socket = openSocket(url);
 const Messenger = props =>{
     const [input,setInput] = useState('');
     const messagesEndRef = useRef(null);
-    const scrollToBottom = ()=>{ // scroll
+    const scrollToBottom = ()=>{
         messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
     }
     const submitMessage = event =>{
@@ -21,7 +22,7 @@ const Messenger = props =>{
         {
             return null
         }
-        axios.post('http://localhost:3000/user/message',{
+        axios.post(url+'/user/message',{
          id: props.personId,
          message: input 
         },{
@@ -43,17 +44,12 @@ const Messenger = props =>{
 
     useEffect(()=>{
         socket.emit('connect');
-        socket.on('message',(data)=>{ //    IT WORKS !!!
-            console.log(data);
+        socket.on('message',(data)=>{
                 if(props.personId === data.person._id && data.personGetMessage.toString()===props.meId.toString())
                 {
                 props.addMessage(data);
                 setInput('');
                 }
-            /*if(props.id===data.person._id && data.personGetMessage.toString()===props.meId.toString())
-            {
-            props.addMessage(data);
-            }*/
         });
         return ()=>socket.off('message');
     },[props.personId,props]);
