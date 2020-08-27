@@ -36,7 +36,7 @@ const LandingPage = props=>{
         setState({
           ...state,
           loading: false
-        }); // why?
+        });
       })
       .catch(err=>{
         setState({

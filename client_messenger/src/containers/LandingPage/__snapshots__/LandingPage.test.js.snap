@@ -1,0 +1,102 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<LandingPage/> matches snapshot 1`] = `
+Array [
+  <div
+    className="nav"
+  >
+    <p
+      onClick={[Function]}
+    >
+      Social
+    </p>
+    <p
+      className="active"
+    >
+      Home
+    </p>
+    <p
+      onClick={[Function]}
+    >
+      About
+    </p>
+  </div>,
+  <img
+    className="image"
+    height="300"
+    src="messenger.png"
+    width="300"
+  />,
+  <div
+    className="LandingPage"
+  >
+    <form
+      className=""
+      style={
+        Object {
+          "marginTop": "25px",
+        }
+      }
+    >
+      <div
+        className="form-group"
+      >
+        <input
+          className="input form-control"
+          id="formBasicEmail"
+          name="login"
+          onChange={[Function]}
+          placeholder="Enter Login"
+          style={
+            Object {
+              "width": "50%",
+            }
+          }
+          type="text"
+          value=""
+        />
+      </div>
+      <div
+        className="form-group"
+      >
+        <input
+          className="input form-control"
+          id="formBasicLogin"
+          name="password"
+          onChange={[Function]}
+          placeholder="Enter Password"
+          style={
+            Object {
+              "width": "50%",
+            }
+          }
+          type="text"
+          value=""
+        />
+      </div>
+      <button
+        className="button btn btn-dark"
+        disabled={false}
+        onClick={[Function]}
+        type="button"
+      >
+        Login
+      </button>
+    </form>
+  </div>,
+  <div
+    style={
+      Object {
+        "textAlign": "center",
+      }
+    }
+  >
+    <a
+      href="/register"
+      onClick={[Function]}
+    >
+      You don't have account? CLICK!
+    </a>
+  </div>,
+]
+`;

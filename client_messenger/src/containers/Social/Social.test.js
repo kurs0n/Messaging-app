@@ -53,7 +53,6 @@ describe('<Social/>',()=>{
         const getUsers = jest.fn(); 
         const handleRender = jest.spyOn(React,'useEffect');
         handleRender.mockImplementation(user=>[user,getUser]);
-        wrapper.update();
         expect(getUsers).toBeTruthy();
     });
 });

@@ -1,0 +1,63 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Messenger /> matches snapshot 1`] = `
+<div
+  style={
+    Object {
+      "borderColor": "black",
+      "borderWidth": "1px",
+    }
+  }
+>
+  <div
+    className="messenger"
+  >
+    <div
+      style={
+        Object {
+          "marginTop": 15,
+        }
+      }
+    >
+      <p
+        style={
+          Object {
+            "display": "inline",
+            "fontWeight": "bold",
+          }
+        }
+      >
+        siema
+        :
+      </p>
+       
+      elooooooo
+    </div>
+    <div />
+     
+  </div>
+  <form
+    className="formunactive"
+    onSubmit={[Function]}
+  >
+    <div
+      className="form-group"
+    >
+      <input
+        className="input form-control"
+        id="formBasicEmail"
+        name="textInput"
+        onChange={[Function]}
+        placeholder="Enter Some text"
+        type="text"
+        value=""
+      />
+    </div>
+  </form>
+  <img
+    className="image"
+    onClick={[Function]}
+    src="send.png"
+  />
+</div>
+`;
