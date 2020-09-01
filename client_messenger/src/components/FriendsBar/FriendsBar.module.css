@@ -1,11 +1,17 @@
-.sidebar { 
+.FriendsBar { 
     width: 20%;
     height: 500px;
     border: 1px solid black;
     margin-left: 20px;
-    margin-top: 25px;
+    margin-top: 35px;
     overflow: auto;
 }
 .h1{
     text-align: center;
+}
+
+@media (max-width: 650px) {
+    .h1 {
+        font-size: 30px;
+    }
 }

@@ -10,3 +10,9 @@
     width: 50%;
     margin: auto;
 }
+
+@media(max-width: 650px){
+    .div {
+        width: 100%;
+    }
+}

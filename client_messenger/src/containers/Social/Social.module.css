@@ -30,3 +30,22 @@
     width: 20%;
     height: 50px;
 }
+
+.not_find_user { 
+    text-align: center;
+    font-size: 20px;
+    padding-right: 20%;
+}
+
+@media (max-width: 650px){ 
+    .container {
+        text-align: center;
+        margin-right: 45%;
+    }
+    .Button_logout{
+        width: 40%;
+    }
+    .li{
+        width: 70%;
+    }
+}

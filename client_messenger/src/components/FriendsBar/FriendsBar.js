@@ -1,14 +1,14 @@
 import React from 'react';
-import classes from './Sidebar.module.css';
+import classes from './FriendsBar.module.css';
 import Emoji from '../Emoji/Emoji';
 
-const sidebar = props =>{
+const FriendsBar = props =>{
     return(
-        <div className={classes.sidebar}>
+        <div className={classes.FriendsBar}>
             <h1 className={classes.h1}>{props.title}<Emoji symbol="🙋🏼‍♂️"/></h1>
             {props.children}
         </div>
     )
 };
 
-export default sidebar;
+export default FriendsBar;

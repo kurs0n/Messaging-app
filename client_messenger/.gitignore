@@ -11,6 +11,9 @@
 # production
 /build
 
+/src/ApiUrl.js
+Procfile
+
 # misc
 .DS_Store
 .env.local

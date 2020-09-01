@@ -171,10 +171,12 @@ const Social = props =>{
     return (
         <>
         <Navigation social history={props.history}/>
-        <Button variant="dark" className={classes.Button_logout} onClick={()=>{
-                localStorage.removeItem('token');
-                window.location.reload(false);
-        }}>logout</Button>
+        <div className={classes.container}>
+            <Button variant="dark" className={classes.Button_logout} onClick={()=>{
+                    localStorage.removeItem('token');
+                    window.location.reload(false);
+            }}>logout</Button>
+        </div>
         <Form className={classes.socialinput}>
             <Form.Group controlId="formBasicEmail">
                 <Form.Control type="text" placeholder="Search Friends by typing their names 🧙‍♂️" value={state.input} onChange={handleChange}/>
@@ -182,7 +184,7 @@ const Social = props =>{
         </Form>
         <ul className={classes.ul}>
             {
-                users.length ? users : state.loading ? null : <h1 style={{textAlign: 'center'}}>We can't find users <Emoji symbol="😵"/></h1>
+                users.length ? users : state.loading ? null : <h1 className={classes.not_find_user}>We can't find users <Emoji symbol="😵"/></h1>
             }
         </ul>
         <div style={{textAlign: 'center'}}>

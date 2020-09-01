@@ -11,7 +11,7 @@ app.use(helmet());
 app.use(bodyParser.json());
 
 app.use((req, res, next) => {//cors policy
-    res.setHeader('Access-Control-Allow-Origin', 'https://messengerclientgithub.herokuapp.com');
+    res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader(
       'Access-Control-Allow-Methods',
       'OPTIONS, GET, POST, PUT, PATCH, DELETE'

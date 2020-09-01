@@ -1,7 +1,7 @@
 import React,{useEffect,useState} from 'react';
 import Navigation from '../../components/Navigation/Navigation';
 import Users from '../Users/Users';
-import Sidebar from '../../components/Sidebar/Sidebar';
+import FriendsBar from '../../components/FriendsBar/FriendsBar';
 import Emoji from '../../components/Emoji/Emoji';
 import Messenger from '../Messenger/Messenger';
 import InformationUser from '../../components/InformationUser/InformationUser';
@@ -34,17 +34,18 @@ const Panel = props=>{
     },[props])
     return (
         <>
-            <Button variant="dark" className={classes.Button} onClick={()=>{
-                localStorage.removeItem('token');
-                window.location.reload(false);
-            }}>logout</Button>
+            <div className={classes.container}>
+                <Button variant="dark" className={classes.Button} onClick={()=>{
+                    localStorage.removeItem('token');
+                    window.location.reload(false);
+                }}>logout</Button>
+            </div>
             <Navigation home history={props.history}/>
-            <Sidebar title="Friends">
+            <FriendsBar title="Friends">
                 <Users/>
-            </Sidebar>  
+            </FriendsBar>  
             <InformationUser name={state.name} surname={state.surname}/>
         {props.personId&&props.meId ? <Messenger messages={props.messages}/> : <h1 className={classes.h1}>Choose friend or Add him <Emoji symbol="🧔"/></h1> }
-
         </>
     )
 };

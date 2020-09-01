@@ -1,20 +1,66 @@
-.nav {
+.navDesktop {
     display: flex;
     justify-content: center;
     margin: auto;
     border: 1px solid black;
     width: 50%;
 }
-.nav p{
+.navDesktop p{
     margin: 10px 10% 10px 10%;
     font-weight: bold;
 }
 
-.nav p:hover{
+.navDesktop p:hover{
     color: #008c8c;
     cursor: pointer;
 }
 
+.mobile {
+    position: absolute;
+    list-style-type: none;
+    top: 0px;
+    z-index: 100;
+    height: 100%;
+    width: 30%;
+    border-right: 1px solid;
+    border-color: black;
+    background-color: #FFFFFF;
+    margin: auto;
+    transition: transform 0.3s ease-out;
+}
+
+.mobile p{
+    margin: 10% 10% 10% 10%;
+    font-weight: bold;
+}
+
+.mobile p:hover{
+    color: #008c8c;
+    cursor: pointer;
+}
+
+.open {
+    transform: translateX(0);
+}
+
+.close {
+    transform: translateX(-100%);
+}
+
+.mobile li{
+    font-weight: bold;
+}
+
+
 .active {
     color: #008c8c;
+}
+
+@media (max-width: 650px){
+    .navDesktop {
+        display: none;
+    }
+    .mobile{
+        display: inline-block;
+    }
 }
