@@ -7,16 +7,18 @@ module.exports.addFriend = async (req,res,next)=>{
     const friend = await Account.findOne({_id: friendId});
     if(!friend)
     {
-        const error = new Error();
+        const error = new Error();  
         error.message="Can't find this account";
         error.statusCode = 500;
-        return next(error);
+        next(error);
+        return error; // for testing this is required
     }
     if (friend._id.toString() === user._id.toString()){
         const error = new Error();
         error.message="You can't add yourself to friends xD";
         error.statusCode = 500;
-        return next(error);
+        next(error);
+        return error;
     }
     user.friends.push({
         friend: friend._id,
@@ -57,6 +59,8 @@ module.exports.sendMessage = async (req,res,next)=>{
             }]
         });
         conversation.save();
+        const socket = require('../utils/socket').getIo();
+        const person = await Account.findOne({_id: userSendingMessage}).select('name');
         socket.emit('message',{
             _id: conversation.messages[conversation.messages.length-1]._id,
             person: person,
@@ -79,7 +83,7 @@ module.exports.sendMessage = async (req,res,next)=>{
         socket.emit('message',{
             _id: conversationindb.messages[conversationindb.messages.length-1]._id,
             person: person,
-            message: message,
+            message: message, 
             personGetMessage: userWhoGetMessage
         });
         res.status(200).json({
@@ -94,11 +98,12 @@ module.exports.sendMessage = async (req,res,next)=>{
 module.exports.getFriends = async (req,res,next)=>{
     const user = await Account.findOne({_id: req.userId}).populate({path: 'friends.friend', select:'name surname email'});
     const friends = [...user.friends];
-    if (!friends){
+    if (!friends.length){
         const error = new Error();
         error.message="You don't have friends :(";
         error.statusCode = 500;
-        return next(error);
+        next(error);
+        return error;
     }
     res.status(200).json({
         friends: friends
@@ -171,7 +176,7 @@ module.exports.acceptFriend = async(req,res,next)=>{
     const friendId = req.body.id;
     const loggedUser = await Account.findOne({_id: userId});
     const friendToBeAdded = await Account.findOne({_id: friendId});
-    loggedUser.friends.map(friend=>{
+    let testing = loggedUser.friends.map(friend=>{
         if (friend.friend.toString()=== friendToBeAdded._id.toString())
         {
             if (!friend.accepted && friend.send === false)
@@ -180,12 +185,12 @@ module.exports.acceptFriend = async(req,res,next)=>{
             }
             else if(friend.send ===true)
             {
-                res.status(200).json({
+                return res.status(200).json({
                     message: "You can't do like that"
-                })
+                });
             }
             else {
-                res.status(200).json(
+                return res.status(200).json(
                     {   
                         message: 'You are already friends :)'
                     }
@@ -193,7 +198,10 @@ module.exports.acceptFriend = async(req,res,next)=>{
             }
         }
     });
-    friendToBeAdded.friends.map(friend=>{
+    if (testing[0] === true){ // only for testing purpose
+        return;
+    }
+    testing = friendToBeAdded.friends.map(friend=>{
         if (friend.friend.toString()=== loggedUser._id.toString())
         {
             if (!friend.accepted && friend.send === true)
@@ -202,7 +210,7 @@ module.exports.acceptFriend = async(req,res,next)=>{
             }
             else if(friend.send ===false)
             {
-                res.status(200).json({
+                return res.status(200).json({
                     message: "You can't do like that"
                 })
             }
@@ -215,6 +223,9 @@ module.exports.acceptFriend = async(req,res,next)=>{
              }
         }
     });
+    if (testing[0] === true){ // only for testing purpose
+        return;
+    }
     loggedUser.save();
     friendToBeAdded.save();
     if(loggedUser._id.toString() === friendToBeAdded._id.toString())
