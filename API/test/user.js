@@ -29,6 +29,7 @@ describe('User controller',()=>{
             })
             .catch(err=>{
                 console.log(err);
+                done(err);
             })
         });
 
@@ -50,7 +51,7 @@ describe('User controller',()=>{
                 done();
             })
             .catch(err=>{
-                console.log(err);
+                done(err);
             })
         });
 
@@ -82,8 +83,7 @@ describe('User controller',()=>{
                 done();
             })
             .catch(err=>{
-                console.log(err);
-                done();
+                done(err);
             });
         });
 
@@ -99,8 +99,7 @@ describe('User controller',()=>{
                 done();
             })
             .catch(err=>{
-                console.log(err);
-                done();
+                done(err);
             })
         })
 
@@ -154,7 +153,7 @@ describe('User controller',()=>{
             .catch(err=>{
                 console.log(err);
                 Conversation.findOne.restore();
-                done();
+                done(err);
             })
         })
         it('should add message if we have conversation',(done)=>{
@@ -206,14 +205,13 @@ describe('User controller',()=>{
                 return sendMessage(req,res,()=>{});
             })
             .then(()=>{
-                //console.log(res);
                 expect(res.statusCode).to.be.equal(200);
                 expect(res.message).to.be.not.equal('');
                 done();
             })
             .catch(err=>{
                 console.log(err);
-                done();
+                done(err);
             })
         })
 
@@ -227,18 +225,21 @@ describe('User controller',()=>{
             })
             .catch(err=>{
                 console.log(err);
-                done();
+                done(err);
             })
         })
     })
 
     describe('getFriends',()=>{
+        beforeEach(()=>{
+            sinon.stub(Account,'findOne');
+            sinon.stub(Account,'populate');
+        });
+
         it("should throw an error if we don't find user",(done)=>{
             const req = {
                 userId: '34789645'
             };
-            sinon.stub(Account,'findOne');
-            sinon.stub(Account,'populate');
             Account.findOne.returns(Account);
             Account.populate.returns({friends: []});
             getFriends(req,{},()=>{})
@@ -246,15 +247,11 @@ describe('User controller',()=>{
                 expect(res).to.be.an('error');
                 expect(res).to.be.property('statusCode',500);
                 expect(res).to.be.property('message',"You don't have friends :(");
-                Account.findOne.restore();
-                Account.populate.restore();
                 done();
             })
             .catch(err=>{
                 console.log(err);
-                Account.findOne.restore();
-                Account.populate.restore();
-                done();
+                done(err);
             });
         });
         it('should send response with friends array',(done)=>{
@@ -272,25 +269,31 @@ describe('User controller',()=>{
                     this.friends = response.friends
                 }
             }
-            sinon.stub(Account,'findOne');
-            sinon.stub(Account,'populate');
             Account.findOne.returns(Account);
             Account.populate.returns({friends: [{name: 'dummy'}]});
             getFriends(req,res,()=>{})
             .then(()=>{
                 expect(res.statusCode).to.be.equal(200);
                 expect(res.friends.length).to.be.not.equal(0);
-                Account.findOne.restore();
-                Account.populate.restore();
                 done();
             })
             .catch(err=>{
                 console.log(err);
-                done();
+                done(err);
             })
+        });
+
+        afterEach(()=>{
+            Account.findOne.restore();
+            Account.populate.restore();
         });
     });
     describe('getConversation',()=>{
+        beforeEach(()=>{
+            sinon.stub(Conversation,'findOne');
+            sinon.stub(Conversation,'populate');
+        });
+
         it('should return empty messages conversation',(done)=>{
             const req = {
                 get: function(something){
@@ -308,8 +311,6 @@ describe('User controller',()=>{
                     this.messages = res.messages
                 }
             }
-            sinon.stub(Conversation,'findOne');
-            sinon.stub(Conversation,'populate');
             Conversation.findOne.returns(Conversation);
             Conversation.populate.returns(null);
             getConversation(req,res,()=>{})
@@ -317,13 +318,11 @@ describe('User controller',()=>{
                 //console.log(res);
                 expect(res.statusCode).to.be.equal(200);
                 expect(res.messages.length).to.be.equal(0);
-                Conversation.findOne.restore();
-                Conversation.populate.restore();
                 done();
             })
             .catch(err=>{
                 console.log(err);
-                done();
+                done(err);
             })
         });
         it('should return a messages',(done)=>{
@@ -343,8 +342,6 @@ describe('User controller',()=>{
                     this.messages = res.messages;
                 }
             };
-            sinon.stub(Conversation,'findOne');
-            sinon.stub(Conversation,'populate');
             Conversation.findOne.returns(Conversation);
             Conversation.populate.returns({messages: [{body: 'dummy'}]});
             getConversation(req,res,()=>{})
@@ -352,19 +349,23 @@ describe('User controller',()=>{
                 //console.log(res);
                 expect(res.statusCode).to.be.equal(200);
                 expect(res.messages.length).to.be.not.equal(0);
-                Conversation.findOne.restore();
-                Conversation.populate.restore();
                 done();
             })
             .catch(err=>{
                 console.log(err);
-                Conversation.findOne.restore();
-                Conversation.populate.restore();
-                done();
+                done(err);
             })
         })
+
+        afterEach(()=>{
+            Conversation.findOne.restore();
+            Conversation.populate.restore();
+        });
     });
     describe('getMe',()=>{
+        before(()=>{
+            sinon.stub(Account,'findOne');
+        })
         it('should return response',(done)=>{
             const req = {
                  userId: '3145475'
@@ -380,25 +381,31 @@ describe('User controller',()=>{
                     this.user = res;
                 }
             }
-            sinon.stub(Account,'findOne');
             Account.findOne.returns({name: 'dummy',surname: 'dummy',select: function(){return this;}});
             getMe(req,res,()=>{})
             .then(()=>{
                 //console.log(res);
                 expect(res.statusCode).to.be.equal(200);
                 expect(res.user.name).to.be.equal('dummy');
-                Account.findOne.restore();
                 done();
             })
             .catch(err=>{
                 console.log(err);
-                Account.findOne.restore();
-                done();
+
+                done(err);
             })
+        });
+
+        after(()=>{
+            Account.findOne.restore();
         });
     });
     
     describe('getUsers',()=>{
+        beforeEach(()=>{
+            sinon.stub(Account,'find');
+        })
+
         it('should return empty accounts array',(done)=>{
             const req = {
                 get: function(something){
@@ -416,19 +423,17 @@ describe('User controller',()=>{
                     this.accounts = response.accounts;
                 }
             };
-            sinon.stub(Account,'find');
             Account.find.returns([{name: ''}]);
             getUsers(req,res,()=>{})
             .then(()=>{
                 //console.log(res); 
                 expect(res.accounts.length).to.be.equal(0);
                 expect(res.statusCode).to.be.equal(200);
-                Account.find.restore();
                 done();
             })
             .catch(err=>{
                 console.log(err);
-                done();
+                done(err);
             })
         });
         it('should return a filtered accounts array',(done)=>{
@@ -448,7 +453,6 @@ describe('User controller',()=>{
                     this.accounts = response.accounts;
                 }
             };
-            sinon.stub(Account,'find');
             Account.find.returns([{name: 'something'}]);
             getUsers(req,res,()=>{})
             .then(()=>{
@@ -456,17 +460,24 @@ describe('User controller',()=>{
                 expect(res.accounts.length).to.be.not.equal(0);
                 expect(res. accounts[0].name).to.be.equal('something');
                 expect(res.statusCode).to.be.equal(200);
-                Account.find.restore();
                 done();
             })
             .catch(err=>{
                 console.log(err);
-                done();
+                done(err);
             })
         });
+
+        afterEach(()=>{
+            Account.find.restore();
+        })
     });
 
     describe('acceptFriend',()=>{
+        beforeEach(()=>{
+            sinon.stub(Account,'findOne');
+        });
+
         it("should return response with message You can't do like that",(done)=>{
             const req = {
                 body:{
@@ -486,7 +497,6 @@ describe('User controller',()=>{
                     return true;
                 }
             }
-            sinon.stub(Account,'findOne');
             Account.findOne.onCall(0).returns({friends: [{friend: '12345',send: true}]});
             Account.findOne.onCall(1).returns({_id: '12345'});
             acceptFriend(req,res,()=>{})
@@ -494,13 +504,11 @@ describe('User controller',()=>{
                 //console.log(res);
                 expect(res.statusCode).to.be.equal(200);
                 expect(res.message).to.be.equal( "You can't do like that");
-                Account.findOne.restore();
                 done();
             })
             .catch(err=>{
                 console.log(err);
-                Account.findOne.restore();
-                done();
+                done(err);
             })
         });
 
@@ -523,7 +531,6 @@ describe('User controller',()=>{
                     return true;
                 }
             }
-            sinon.stub(Account,'findOne');
             Account.findOne.onCall(0).returns({friends: [{friend: '12345',send: false,accepted: true}]});
             Account.findOne.onCall(1).returns({_id: '12345'});
             acceptFriend(req,res,()=>{})
@@ -531,13 +538,11 @@ describe('User controller',()=>{
                 //console.log(res);
                 expect(res.statusCode).to.be.equal(200);
                 expect(res.message).to.be.equal('You are already friends :)');
-                Account.findOne.restore();
                 done();
             })
             .catch(err=>{
                 console.log(err);
-                Account.findOne.restore();
-                done();
+                done(err);
             })
         });
 
@@ -560,7 +565,6 @@ describe('User controller',()=>{
                     return true;
                 }
             }
-            sinon.stub(Account,'findOne');
             Account.findOne.onCall(0).returns({_id: '12345',friends: []});
             Account.findOne.onCall(1).returns({friends: [{friend: '12345',send: false}]});
             acceptFriend(req,res,()=>{})
@@ -568,13 +572,11 @@ describe('User controller',()=>{
                 //console.log(res);
                 expect(res.statusCode).to.be.equal(200);
                 expect(res.message).to.be.equal("You can't do like that");
-                Account.findOne.restore();
                 done();
             })
             .catch(err=>{
                 console.log(err);
-                Account.findOne.restore();
-                done();
+                done(err);
             })
         });
 
@@ -597,7 +599,6 @@ describe('User controller',()=>{
                     return true;
                 }
             }
-            sinon.stub(Account,'findOne');
             Account.findOne.onCall(0).returns({_id: '12345',friends: []});
             Account.findOne.onCall(1).returns({friends: [{friend: '12345',send: true,accepted: true}]});
             acceptFriend(req,res,()=>{})
@@ -605,13 +606,11 @@ describe('User controller',()=>{
                 //console.log(res);
                 expect(res.statusCode).to.be.equal(200);
                 expect(res.message).to.be.equal('You are already friends :)');
-                Account.findOne.restore();
                 done();
             })
             .catch(err=>{
                 console.log(err);
-                Account.findOne.restore();
-                done();
+                done(err);
             })
         });
 
@@ -634,7 +633,6 @@ describe('User controller',()=>{
                     return;
                 }
             }
-            sinon.stub(Account,'findOne');
             Account.findOne.onCall(0).returns({_id: '12345',friends: [],save: function(){return;}});
             Account.findOne.onCall(1).returns({_id: '12345',friends: [],save: function(){return;}});
             acceptFriend(req,res,()=>{})
@@ -642,13 +640,11 @@ describe('User controller',()=>{
                 //console.log(res);
                 expect(res.statusCode).to.be.equal(200);
                 expect(res.message).to.be.equal('Try accept yourself?');
-                Account.findOne.restore();
                 done();
             })
             .catch(err=>{
                 console.log(err);
-                Account.findOne.restore();
-                done();
+                done(err);
             })
         });
 
@@ -671,7 +667,6 @@ describe('User controller',()=>{
                     return;
                 }
             }
-            sinon.stub(Account,'findOne');
             Account.findOne.onCall(0).returns({_id: '56456',friends: [],save: function(){return;}});
             Account.findOne.onCall(1).returns({_id: '12345',friends: [],save: function(){return;}});
             acceptFriend(req,res,()=>{})
@@ -679,14 +674,16 @@ describe('User controller',()=>{
                 //console.log(res);
                 expect(res.statusCode).to.be.equal(200);
                 expect(res.message).to.be.equal('Accepted friends :)');
-                Account.findOne.restore();
                 done();
             })
             .catch(err=>{
                 console.log(err);
-                Account.findOne.restore();
-                done();
+                done(err);
             })
+        });
+
+        afterEach(()=>{
+            Account.findOne.restore();
         });
     });
 });

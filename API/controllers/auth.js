@@ -10,16 +10,18 @@ module.exports.signup = async (req,res,next)=>{
         const error = new Error();
         error.message = 'Account already exist';
         error.statusCode = 401;
-        return next(error);
+        next(error);
+        return error;
     }
     existingAccount = await Account.findOne({login: req.body.login});
     if (existingAccount){
         const error = new Error();
         error.message = 'Account already exist';
         error.statusCode = 401;
-        return next(error);
+        next(error);
+        return error;
     }
-    const account = new Account({...req.body,password: await bcrypt.hash(req.body.password,12)});
+    const account = await Account.create({...req.body,password: await bcrypt.hash(req.body.password,12)});
     const token = await jwt.sign({id: account._id.toString()},process.env.SECRET_KEY,{expiresIn: '1h'});
     await account.save();
     res.status(201).json({
@@ -38,7 +40,8 @@ module.exports.login = async (req,res,next)=>{
         const error = new Error();
         error.message = 'Account not exist';
         error.statusCode = 400;
-        return next(error);
+        next(error);
+        return error;
     }
     const logged = await bcrypt.compare(password,account.password);
     if(logged)
@@ -57,6 +60,7 @@ module.exports.login = async (req,res,next)=>{
         const error = new Error();
         error.message = 'Wrong Password';
         error.statusCode = 401;
-        return next(error);
+        next(error);
+        return error;
     }
 };

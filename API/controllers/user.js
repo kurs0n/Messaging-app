@@ -57,7 +57,7 @@ module.exports.sendMessage = async (req,res,next)=>{
                 person: userSendingMessage,
                 message: message
             }]
-        });
+        }); 
         conversation.save();
         const socket = require('../utils/socket').getIo();
         const person = await Account.findOne({_id: userSendingMessage}).select('name');
@@ -72,7 +72,6 @@ module.exports.sendMessage = async (req,res,next)=>{
         })
     }
     else {
-
         conversation.messages.push({
             person: userSendingMessage,
             message: message
@@ -197,8 +196,8 @@ module.exports.acceptFriend = async(req,res,next)=>{
                 );
             }
         }
-    });
-    if (testing[0] === true){ // only for testing purpose
+    })[0];
+    if (testing === true){ // only for testing purpose
         return;
     }
     testing = friendToBeAdded.friends.map(friend=>{
@@ -222,8 +221,8 @@ module.exports.acceptFriend = async(req,res,next)=>{
                  );
              }
         }
-    });
-    if (testing[0] === true){ // only for testing purpose
+    })[0];
+    if (testing === true){ // only for testing purpose
         return;
     }
     loggedUser.save();
